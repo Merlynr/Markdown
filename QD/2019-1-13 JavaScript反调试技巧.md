@@ -94,3 +94,4 @@ Object.defineProperty(div,"id", {get: () => {
     alert("Dev Tools detected!");
 }});
 ```
+***理解：***dome元素渲染到浏览器的时候，浏览器获得元素的id！当浏览器通过控制台进行调试的时候，这个该demo的getter（）方法会被调用!所以通过检查该方法是否被调用来判断是否被调试！【类似很多可以检测很多函数】
