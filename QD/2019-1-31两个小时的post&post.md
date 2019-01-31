@@ -1,6 +1,6 @@
 ---
 title: 2019-1-31不满意的半个小时post&post
-tags: 新建,模板,小书匠
+tags: js
 grammar_cjkRuby: true
 ---
 ### 题记
