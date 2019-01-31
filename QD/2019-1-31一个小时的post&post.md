@@ -37,6 +37,6 @@ grammar_cjkRuby: true
 
 ![enter description here](https://www.github.com/Merlynr/Markdown/raw/noteImg/小书匠/1548913175609.png)
 **我的理解**：get那些被菜鸟总结出来与post不一样的地方，正是由于它所具备了safe，idempotent，cacheable这些性质所决定的，而post没有这些性质也是它能够被用于做登陆验证，表单传输等一些安全系数较高的原因！这也是对于这两个方法适用于不同场合的原因！
-
+为啥post比get传的数据量要大：get不支持二进制哦和url长度的限制
 
 
