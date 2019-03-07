@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<!-- saved from url=(0122)chrome-extension://bldcellajihanglphncgjmceklbibjkk/chatbox-only/chatbox-frame.html?https://www.jianshu.com/p/02aac12e459f -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <title>Chatbox</title>
+    <style type="text/css">svg:not(:root).svg-inline--fa {
+  overflow: visible; }
+
+.svg-inline--fa {
+  display: inline-block;
+  font-size: inherit;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -.125em; }
+  .svg-inline--fa.fa-lg {
+    vertical-align: -.225em; }
+  .svg-inline--fa.fa-w-1 {
+    width: 0.0625em; }
+  .svg-inline--fa.fa-w-2 {
+    width: 0.125em; }
+  .svg-inline--fa.fa-w-3 {
+    width: 0.1875em; }
+  .svg-inline--fa.fa-w-4 {
+    width: 0.25em; }
+  .svg-inline--fa.fa-w-5 {
+    width: 0.3125em; }
+  .svg-inline--fa.fa-w-6 {
+    width: 0.375em; }
+  .svg-inline--fa.fa-w-7 {
+    width: 0.4375em; }
+  .svg-inline--fa.fa-w-8 {
+    width: 0.5em; }
+  .svg-inline--fa.fa-w-9 {
+    width: 0.5625em; }
+  .svg-inline--fa.fa-w-10 {
+    width: 0.625em; }
+  .svg-inline--fa.fa-w-11 {
+    width: 0.6875em; }
+  .svg-inline--fa.fa-w-12 {
+    width: 0.75em; }
+  .svg-inline--fa.fa-w-13 {
+    width: 0.8125em; }
+  .svg-inline--fa.fa-w-14 {
+    width: 0.875em; }
+  .svg-inline--fa.fa-w-15 {
+    width: 0.9375em; }
+  .svg-inline--fa.fa-w-16 {
+    width: 1em; }
+  .svg-inline--fa.fa-w-17 {
+    width: 1.0625em; }
+  .svg-inline--fa.fa-w-18 {
+    width: 1.125em; }
+  .svg-inline--fa.fa-w-19 {
+    width: 1.1875em; }
+  .svg-inline--fa.fa-w-20 {
+    width: 1.25em; }
+  .svg-inline--fa.fa-pull-left {
+    margin-right: .3em;
+    width: auto; }
+  .svg-inline--fa.fa-pull-right {
+    margin-left: .3em;
+    width: auto; }
+  .svg-inline--fa.fa-border {
+    height: 1.5em; }
+  .svg-inline--fa.fa-li {
+    width: 2em; }
+  .svg-inline--fa.fa-fw {
+    width: 1.25em; }
+
+.fa-layers svg.svg-inline--fa {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0; }
+
+.fa-layers {
+  display: inline-block;
+  height: 1em;
+  position: relative;
+  text-align: center;
+  vertical-align: -.125em;
+  width: 1em; }
+  .fa-layers svg.svg-inline--fa {
+    -webkit-transform-origin: center center;
+            transform-origin: center center; }
+
+.fa-layers-text, .fa-layers-counter {
+  display: inline-block;
+  position: absolute;
+  text-align: center; }
+
+.fa-layers-text {
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-transform-origin: center center;
+          transform-origin: center center; }
+
+.fa-layers-counter {
+  background-color: #ff253a;
+  border-radius: 1em;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #fff;
+  height: 1.5em;
+  line-height: 1;
+  max-width: 5em;
+  min-width: 1.5em;
+  overflow: hidden;
+  padding: .25em;
+  right: 0;
+  text-overflow: ellipsis;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right; }
+
+.fa-layers-bottom-right {
+  bottom: 0;
+  right: 0;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right; }
+
+.fa-layers-bottom-left {
+  bottom: 0;
+  left: 0;
+  right: auto;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left; }
+
+.fa-layers-top-right {
+  right: 0;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right; }
+
+.fa-layers-top-left {
+  left: 0;
+  right: auto;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top left;
+          transform-origin: top left; }
+
+.fa-lg {
+  font-size: 1.33333em;
+  line-height: 0.75em;
+  vertical-align: -.0667em; }
+
+.fa-xs {
+  font-size: .75em; }
+
+.fa-sm {
+  font-size: .875em; }
+
+.fa-1x {
+  font-size: 1em; }
+
+.fa-2x {
+  font-size: 2em; }
+
+.fa-3x {
+  font-size: 3em; }
+
+.fa-4x {
+  font-size: 4em; }
+
+.fa-5x {
+  font-size: 5em; }
+
+.fa-6x {
+  font-size: 6em; }
+
+.fa-7x {
+  font-size: 7em; }
+
+.fa-8x {
+  font-size: 8em; }
+
+.fa-9x {
+  font-size: 9em; }
+
+.fa-10x {
+  font-size: 10em; }
+
+.fa-fw {
+  text-align: center;
+  width: 1.25em; }
+
+.fa-ul {
+  list-style-type: none;
+  margin-left: 2.5em;
+  padding-left: 0; }
+  .fa-ul > li {
+    position: relative; }
+
+.fa-li {
+  left: -2em;
+  position: absolute;
+  text-align: center;
+  width: 2em;
+  line-height: inherit; }
+
+.fa-border {
+  border: solid 0.08em #eee;
+  border-radius: .1em;
+  padding: .2em .25em .15em; }
+
+.fa-pull-left {
+  float: left; }
+
+.fa-pull-right {
+  float: right; }
+
+.fa.fa-pull-left,
+.fas.fa-pull-left,
+.far.fa-pull-left,
+.fal.fa-pull-left,
+.fab.fa-pull-left {
+  margin-right: .3em; }
+
+.fa.fa-pull-right,
+.fas.fa-pull-right,
+.far.fa-pull-right,
+.fal.fa-pull-right,
+.fab.fa-pull-right {
+  margin-left: .3em; }
+
+.fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+          animation: fa-spin 2s infinite linear; }
+
+.fa-pulse {
+  -webkit-animation: fa-spin 1s infinite steps(8);
+          animation: fa-spin 1s infinite steps(8); }
+
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
+
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
+
+.fa-rotate-90 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg); }
+
+.fa-rotate-180 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg); }
+
+.fa-rotate-270 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg); }
+
+.fa-flip-horizontal {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1); }
+
+.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(1, -1);
+          transform: scale(1, -1); }
+
+.fa-flip-horizontal.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(-1, -1);
+          transform: scale(-1, -1); }
+
+:root .fa-rotate-90,
+:root .fa-rotate-180,
+:root .fa-rotate-270,
+:root .fa-flip-horizontal,
+:root .fa-flip-vertical {
+  -webkit-filter: none;
+          filter: none; }
+
+.fa-stack {
+  display: inline-block;
+  height: 2em;
+  position: relative;
+  width: 2em; }
+
+.fa-stack-1x,
+.fa-stack-2x {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0; }
+
+.svg-inline--fa.fa-stack-1x {
+  height: 1em;
+  width: 1em; }
+
+.svg-inline--fa.fa-stack-2x {
+  height: 2em;
+  width: 2em; }
+
+.fa-inverse {
+  color: #fff; }
+
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }
+
+.sr-only-focusable:active, .sr-only-focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto; }
+</style><style type="text/css">.notifications{display:block;position:fixed;z-index:5000}.notification-wrapper{display:block;overflow:hidden;width:100%;margin:0;padding:0}.notification{display:block;box-sizing:border-box;background:#fff;text-align:left}.notification-title{font-weight:600}.vue-notification{font-size:12px;padding:10px;margin:0 5px 5px;color:#fff;background:#44a4fc;border-left:5px solid #187fe7}.vue-notification.warn{background:#ffb648;border-left-color:#f48a06}.vue-notification.error{background:#e54d42;border-left-color:#b82e24}.vue-notification.success{background:#68cd86;border-left-color:#42a85f}.vn-fade-enter-active,.vn-fade-leave-active,.vn-fade-move{transition:all .5s}.vn-fade-enter,.vn-fade-leave-to{opacity:0}</style><style type="text/css">
+.v--modal-block-scroll {
+  overflow: hidden;
+  width: 100vw;
+}
+.v--modal-overlay {
+  position: fixed;
+  box-sizing: border-box;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  opacity: 1;
+}
+.v--modal-overlay.scrollable {
+  height: 100%;
+  min-height: 100vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.v--modal-overlay .v--modal-background-click {
+  min-height: 100%;
+  width: 100%;
+  padding-bottom: 10px;
+}
+.v--modal-overlay .v--modal-box {
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.v--modal-overlay.scrollable .v--modal-box {
+  margin-bottom: 2px;
+  /* transition: top 0.2s ease; */
+}
+.v--modal {
+  background-color: white;
+  text-align: left;
+  border-radius: 3px;
+  box-shadow: 0 20px 60px -2px rgba(27, 33, 58, 0.4);
+  padding: 0;
+}
+.v--modal.v--modal-fullscreen {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  left: 0;
+  top: 0;
+}
+.v--modal-top-right {
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.overlay-fade-enter-active,
+.overlay-fade-leave-active {
+  transition: all 0.2s;
+}
+.overlay-fade-enter,
+.overlay-fade-leave-active {
+  opacity: 0;
+}
+.nice-modal-fade-enter-active,
+.nice-modal-fade-leave-active {
+  transition: all 0.4s;
+}
+.nice-modal-fade-enter,
+.nice-modal-fade-leave-active {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+</style><style type="text/css">
+.vue-modal-resizer {
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  right: 0;
+  bottom: 0;
+  z-index: 9999999;
+  background: transparent;
+  cursor: se-resize;
+}
+.vue-modal-resizer::after {
+  display: block;
+  position: absolute;
+  content: '';
+  background: transparent;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-bottom: 10px solid #ddd;
+  border-left: 10px solid transparent;
+}
+.vue-modal-resizer.clicked::after {
+  border-bottom: 10px solid #369be9;
+}
+</style><style type="text/css">
+.vue-dialog div {
+  box-sizing: border-box;
+}
+.vue-dialog .dialog-flex {
+  width: 100%;
+  height: 100%;
+}
+.vue-dialog .dialog-content {
+  flex: 1 0 auto;
+  width: 100%;
+  padding: 15px;
+  font-size: 14px;
+}
+.vue-dialog .dialog-c-title {
+  font-weight: 600;
+  padding-bottom: 15px;
+}
+.vue-dialog .dialog-c-text {
+}
+.vue-dialog .vue-dialog-buttons {
+  display: flex;
+  flex: 0 1 auto;
+  width: 100%;
+  border-top: 1px solid #eee;
+}
+.vue-dialog .vue-dialog-buttons-none {
+  width: 100%;
+  padding-bottom: 15px;
+}
+.vue-dialog-button {
+  font-size: 12px !important;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+  line-height: 40px;
+  height: 40px;
+  color: inherit;
+  font: inherit;
+  outline: none;
+}
+.vue-dialog-button:hover {
+  background: rgba(0, 0, 0, 0.01);
+}
+.vue-dialog-button:active {
+  background: rgba(0, 0, 0, 0.025);
+}
+.vue-dialog-button:not(:first-of-type) {
+  border-left: 1px solid #eee;
+}
+</style><style type="text/css">.v--modal-overlay{z-index:2147483647}.v--modal-box{padding:20px;background-color:#eceff1;font-size:15px;max-width:100%}.v--modal-box textarea{width:100%;font-size:15px;height:200px}.comment-modal-footer{float:right;margin-top:15px}.comment-modal-footer span{padding:8px;border-radius:4px;color:#fff;background:gray;cursor:pointer}.comment-modal-footer #submit-comment-btn{background:#00a1ff}</style><style type="text/css">.enlarged-image-wrapper{max-height:500px;overflow-y:auto}img.enlarged-image{margin:auto;display:block;max-width:100%}</style><style type="text/css">.socketchatbox-page-title .fa.fa-power-off{color:#d3d3d3;margin-left:5px;margin-right:0}#socketchatbox-live-status:hover .fa.fa-power-off{color:#fff}.socketchatbox-page-title .fa:hover{color:#000}.fa,.no-text-selection{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.notifications{bottom:35px!important;width:100%!important;position:absolute}.vue-notification{margin:0;border-left:none}.notification-title{font-weight:300;text-align:center}button:focus{outline:none}.float-left{float:left}.float-right{float:right}.svg-inline--fa:active{background:#d3d3d3}.socketchatbox-page{border:1px solid #d3d3d3;border-top:none;position:fixed;bottom:0;font-family:Helvetica Neue,Helvetica,Arial,PingFang SC,Hiragino Sans GB,Heiti SC,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;font-size:12px;line-height:1;z-index:2147483646;text-align:left;box-shadow:15px 15px 5px rgba(0,0,0,.3)}.socketchatbox-page,.socketchatbox-page *{box-sizing:border-box}.socketchatbox-page-title{height:30px;border-bottom:1px solid #d3d3d3;width:100%;text-align:center;background:#fff;padding:8px;padding-left:10px;padding-right:10px}.socketchatbox-page-title .fa{cursor:pointer}.socketchatbox-body{width:100%;height:100%;background:#eceff1}[v-cloak]{display:none}.socketchatbox-page ::-webkit-scrollbar{width:7px}.socketchatbox-page ::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 1px #d3d3d3}.socketchatbox-page ::-webkit-scrollbar-thumb{background:#ccc}.socketchatbox-page ::-webkit-scrollbar-thumb:window-inactive{background:rgba(0,0,0,.05)}</style><style type="text/css">.right-options{float:right;margin-right:10px;position:relative}.unread-notification-dot{position:absolute;top:2px;background:orange;margin-left:18px;border-radius:100%;width:12px;height:12px}.top-option .total-num{float:right;color:gray}.top-option{display:inline-block;cursor:pointer}.socketchatbox-resize{top:0;height:20px;width:15px;position:absolute;z-index:99999}#socketchatbox-nw{left:0;cursor:nw-resize}#socketchatbox-ne{right:0;cursor:ne-resize}#topbar-options{margin-right:15px;font-size:15px;cursor:pointer}#topbar-options .fa{color:#d3d3d3;line-height:30px;font-size:30px;padding-left:7px;padding-right:7px}#topbar-options .fa-close{width:.9em}#topbar-options .fa:hover{background:gray;color:#fff}#topbar-options .fa.selected{background:#fff;color:#000}.mini #topbar-options .fa,.mini #topbar-options .fa:hover{color:#b2b2b2!important;background:none!important}#socketchatbox-username{float:left;padding-right:10px;color:#fff;white-space:nowrap;max-width:80px;min-width:30px;text-align:center}#socketchatbox-top,#socketchatbox-username{overflow:hidden;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}#socketchatbox-top{min-width:180px;border-top:1px solid;cursor:move;height:30px;background:rgba(0,0,0,.75);padding-left:10px;box-shadow:-1px 0 0,1px 0 0;line-height:30px}#socketchatbox-top.mini{box-shadow:none;border-top:1px solid #d3d3d3;background:hsla(0,0%,100%,.9)}#socketchatbox-top.mini:hover{background:#fff}</style><style type="text/css">.socketchatbox-bottom-btn-wrapper{width:100%;height:35px;border:none;border-top:1px solid #d3d3d3;float:left;border-radius:0;background:#fff;font-weight:400}.socketchatbox-bottom-btn-wrapper:hover{background:#2196f3;cursor:pointer;color:#fff}.socketchatbox-bottom-btn-wrapper span.fa{margin-right:5px}.fa-pen{margin-right:10px}.comment-body-footer span{margin-right:5px;font-size:smaller;color:#cacaca;cursor:pointer}.comment-body-footer .flag{float:right}.comment-body-footer span.comment-score{color:#03a9f4}.comment-body-footer span.voted{color:#03a9f4!important}.comment-body-footer span:hover{color:gray}.comment-body-footer span.flag:hover{color:red}.commenter-name{font-weight:700;color:gray}.user-avatar{float:left}.comment-content{margin-top:5px}.comment-time{color:gray;margin-left:10px}.socketchatbox-commentsArea{overflow-wrap:break-word;width:100%;height:calc(100% - 30px);overflow-y:auto;padding-right:10px;padding-left:10px;padding-top:15px}.fa-refresh{margin-right:10px}.socketchatbox-commentsArea .comment-body{width:auto;margin-left:10px;white-space:pre-line;display:inline-block;margin-bottom:15px;max-width:calc(100% - 50px);border-radius:5px;box-shadow:0 0 6px #b2b2b2;padding:12px;padding-top:7px;padding-bottom:7px;vertical-align:top;line-height:1.25em;font-size:12px;word-wrap:break-word;background:#fff}.no-comment-yet{position:relative;top:40%;text-align:center;color:gray;font-size:15px;font-weight:700}.socketchatbox-page-title{color:#393939}</style><style type="text/css">.load-chat-history{color:gray;cursor:pointer;text-decoration:underline}.load-chat-history:hover{color:#2196f3}.stubborn-btn{color:#6d6d6d;background:#efefef;padding:8px;padding-top:5px;padding-bottom:5px;border:1px solid #dedede;border-radius:3px}.stubborn-btn:hover{background:#fff;cursor:pointer}.stubborn-btn.ok{background:#2196f3;color:#fff;margin-right:10px}.site-page-chat-toggle{display:inline-table;margin-left:10px;color:#fff;cursor:pointer}.toggle-switch{padding:3px 7px;background:#d3d3d3}.toggle-switch.left-switch{border-top-left-radius:5px;border-bottom-left-radius:5px}.toggle-switch.right-switch{border-top-right-radius:5px;border-bottom-right-radius:5px}.toggle-switch.selected{background:rgba(0,0,0,.75)}#socketchatbox-live-status .fa{color:#fff}.online-users-btn:hover,.online-users-btn:hover .fa{color:#000}#socketchatbox-live-status{cursor:pointer;line-height:15px;background:#d3d3d3;padding:3px 7px;color:#fff;border-radius:5px}#socketchatbox-live-status:hover .fa.fa-power-off{color:#00ff32}#socketchatbox-live-status.connected{background:#0089ff}#socketchatbox-live-status.connected:hover .fa.fa-power-off{color:red}.chat-typing{z-index:1;color:#fff;background:rgba(0,153,255,.8)}.chat-typing,.redirection-confirmation{width:100%;position:absolute;text-align:center;bottom:35px;line-height:18px;padding:10px;padding-top:5px;padding-bottom:5px}.redirection-confirmation{z-index:5001;color:#000;background:#ff0}.socketchatbox-chatArea{width:100%;height:calc(100% - 30px);overflow-y:auto;padding:15px 10px 30px}.message-name{color:gray;margin-left:10px;float:left}.socketchatbox-message-me .message-name{margin-left:0;margin-right:10px;float:right}.socketchatbox-messagetime{color:gray}.inline-emoji{font-size:18px;bottom:-3px;position:relative}.socketchatbox-messages{padding:0}.user-avatar{cursor:pointer;width:40px;height:40px;object-fit:cover;border-radius:100%;box-shadow:0 0 6px #000}.socketchatbox-message-me .user-avatar{float:right}.user-avatar-placeholder{width:40px;height:5px;float:left}.socketchatbox-message-me .user-avatar-placeholder{float:right}.socketchatbox-message{width:100%;display:inline-block;margin-bottom:15px}.socketchatbox-messageBody img{max-width:120px;border-radius:5px}.socketchatbox-message video{max-width:100%}.socketchatbox-log{color:#9e9e9e;font-size:11px;line-height:20px;margin-top:10px;margin-bottom:5px;padding:0;text-align:center}.socketchatbox-messageBody{max-width:calc(100% - 100px);float:left;margin-top:5px;margin-left:10px;background-color:#fff;border-radius:5px;box-shadow:0 0 6px #b2b2b2;display:inline-block;padding:10px;padding-top:5px;padding-bottom:5px;position:relative;vertical-align:top;line-height:18px;font-size:12px;word-wrap:break-word}.merge-above{margin-top:-15px}.socketchatbox-message-me img{float:right}.socketchatbox-message-me .socketchatbox-messageBody{float:right;background:#bf0;margin-right:10px}.socketchatbox-messageBody.emoji-only{font-size:xx-large;background:none;box-shadow:none;padding:0}.socketchatbox-messageBody.image-or-video{background:none;box-shadow:none;padding:0;border-radius:5px;cursor:pointer}.input-bar-mask{height:35px;width:100%;background:#fff;text-align:center;line-height:35px;position:absolute;border-top:1px solid #d3d3d3}.input-bar-mask:hover{background:#2196f3;cursor:pointer;color:#fff}.invitations{position:absolute;left:10px;text-decoration:underline;color:#d3d3d3;cursor:pointer}.invitations.active,.invitations:hover{color:#000}.send-invitation-btn{position:absolute;left:70px;color:#d3d3d3}.send-invitation-btn.active{color:orange}.online-users-btn{cursor:pointer;color:#d3d3d3;position:absolute;right:10px}.online-users-btn.active{color:#000}</style><style type="text/css">.online-users-slide-enter-active,.online-users-slide-leave-active{transition:1s}.online-users-slide-enter,.online-users-slide-leave-to{transform:translate(100%)}.socketchatbox-onlineusers{background:#fff;width:100%;overflow-y:auto;max-height:50%;position:absolute;z-index:1;padding-top:3px;outline:1px solid #d3d3d3}.socketchatbox-onlineusers .onlineUser{margin:5px;display:inline-block;cursor:pointer}.onlineUser img{width:30px;height:30px;object-fit:cover;border-radius:100%;box-shadow:0 0 6px #000}.same-page-chat-title{margin:5px}</style><style type="text/css">.invite-people-btn-wrapper{color:gray;margin-top:10px;margin-bottom:10px}.invite-people-btn-wrapper span{cursor:pointer;color:#000;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.invite-people-btn-wrapper span:hover{text-decoration:underline}.slide-enter-active,.slide-leave-active{transition:1s}.slide-enter,.slide-leave-to{transform:translate(-100%)}.self-invitation{background:#ff0}.socketchatbox-invites{background:#fff;width:100%;overflow-y:auto;padding:5px;max-height:50%;position:absolute;z-index:1;outline:1px solid #d3d3d3}.loading-invitations{margin-bottom:10px}.invite-row{padding:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.socketchatbox-invites img{cursor:pointer;width:20px;height:20px;object-fit:cover;float:left;border-radius:100%;box-shadow:0 0 6px #000;margin-right:10px}.lobby-msg-content{line-height:20px}.invite-row a,.invite-row a:visited{color:#03a9f4}.invite-row .page-title{cursor:pointer;margin-left:2px;color:#03a9f4}</style><style type="text/css">.socketchatbox-page-title .username{color:#00a8ff;cursor:pointer}.socketchatbox-inbox-wrapper{height:calc(100% - 30px);width:100%}.socketchatbox-inbox{width:100%;height:100%;background:#eceff1}.socketchatbox-inbox-message{width:100%;display:inline-block;margin-bottom:0}.socketchatbox-inbox-message .socketchatbox-messageBody{max-width:90%}.inbox-conversation-no-message{position:relative;top:45%;text-align:center;color:gray;font-size:15px;font-weight:700}.socketchatbox-friend-messages{height:100%;padding:10px;overflow-y:auto;overflow-x:hidden}.socketchatbox-friend-list{width:25%;height:100%;overflow:auto;float:left;background:rgba(0,0,0,.75);color:#fff}.socketchatbox-friend-list img{width:32px;height:32px;object-fit:cover;border-radius:100%;box-shadow:0 0 6px #000}.friendnameWrapper .name-text{text-align:center;margin-top:3px}.socketchatbox-friend-list .message-unread{border-radius:50%;background:orange;height:10px;left:5px;float:left;margin-right:-15px;margin-top:10px;width:10px;margin-left:5px}.friendnameWrapper{padding-top:10px;padding-bottom:5px;cursor:pointer}.friendnameWrapper.selected{background-color:#eceff1;color:#000}#socketchatbox-toggle-friend-list{position:absolute;display:none;z-index:2;top:50%;left:70px;padding:10px;color:gray;cursor:pointer;background:#fff;outline:1px solid #d3d3d3}#socketchatbox-toggle-friend-list:hover{color:#000}</style><style type="text/css">.login-forms-wrapper{width:200px;margin:auto}.login-forms-wrapper input{margin-top:5px;width:100%;line-height:20px;padding:5px;border-radius:5px;border:1px solid #d1d5da;display:block}.gray-font{color:gray}</style><style type="text/css">.img-upload-file-wrapper:hover .upload-profile-image-btn-wrapper{visibility:visible}.upload-profile-image-btn-wrapper{visibility:hidden;position:relative;margin-top:-52px;cursor:pointer!important;font-size:large}.follower-stats{margin:10px}.show-change-password-form{margin:30px;cursor:pointer;color:#00a6ff}.show-change-password-form:hover{text-decoration:underline}.follower-stats span{cursor:pointer}.follower-stats .count{margin:0;color:#00a6ff}.follower-stats span:hover{text-decoration:underline}.upload-profile-image-btn{border:none;width:100%;height:50px;background:rgba(0,0,0,.5);color:#fff;font-size:large}.upload-profile-image-btn-wrapper:hover .upload-profile-image-btn{background:rgba(0,0,0,.75)}.upload-profile-image-btn-wrapper input[type=file]{position:absolute;cursor:pointer;width:100%;height:100%;left:0;top:0;opacity:0}button:disabled,button[disabled]{background-color:#d3d3d3!important;color:#000!important;cursor:not-allowed!important}.socketchatbox-profileArea{width:100%;height:calc(100% - 30px);overflow-y:auto;overflow-x:hidden}.socketchatbox-profileArea .user-metadata{color:gray;margin:15px}.user-metadata span{margin:15px}.socketchatbox-aboutme{padding:5px;width:80%;min-height:80px;word-break:break-all;resize:none;background:none;border:1px solid #d3d3d3;border-radius:5px;text-align:left;line-height:1.5}.socketchatbox-aboutme:focus{outline:none}.socketchatbox-profileArea .username{margin:0;margin-top:15px;padding:5px;text-align:center;font-size:15px;width:150px;border:none;border-bottom:1px solid #d3d3d3}input.username{background:none;display:block}input.username:focus{outline:none}.socketchatbox-profileArea img{width:100%}.password-requiremnets{color:red}</style><style type="text/css">.socketchatbox-aboutme-others{margin:30px;margin-top:20px;margin-bottom:50px;text-align:left;line-height:1.5}.socketchatbox-bottom-btn-wrapper.red:hover{background:red}.socketchatbox-bottom-btn-wrapper.half{width:50%}.socketchatbox-bottom-btn-wrapper.right-half{border-left:1px solid #d3d3d3}.leave-others-profile{cursor:pointer;display:block;margin-top:-3px;font-size:18px;position:absolute;color:gray;margin-left:5px}.user-metadata .follow{margin:15px}.block-user{color:red;cursor:pointer}.block-user:hover{text-decoration:underline}</style><style type="text/css">.follower-name{max-width:50px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.site-page-chat-toggle.blue .selected{background:#09f}.socketchatbox-followersArea{width:100%;height:calc(100% - 30px);background:#eceff1;padding-top:10px;overflow-y:auto}.follower-wrapper{display:inline-block;text-align:center;margin:5px}.follower-wrapper img{width:50px;height:50px;object-fit:cover;border-radius:100%;box-shadow:0 0 6px #000;margin:5px;cursor:pointer}.follower-footer{width:100%;height:35px;border:none;border-top:1px solid #d3d3d3;float:left;border-radius:0;font-weight:400;background:#fff}</style><style type="text/css">.socketchatbox-inputMessage-div .svg-inline--fa{padding:7px;cursor:pointer}.socketchatbox-inputMessage-div{height:35px;background-color:#fff;border-top:1px solid #d3d3d3;padding-right:10px}.socketchatbox-inputMessage-div input{box-sizing:border-box}.socketchatbox-inputMessage{width:calc(100% - 105px);padding:0;padding-left:10px;height:34px;border:0;margin:0;line-height:2;float:left}input.socketchatbox-inputMessage:disabled{background:#d3d3d3;cursor:not-allowed}#socketchatbox-emoji-btn,#socketchatbox-sendFileBtn,#socketchatbox-sticker-btn{overflow:hidden;height:34px;width:35px;float:right;color:#d3d3d3;border:none;outline:none}#socketchatbox-emoji-btn:hover,#socketchatbox-sendFileBtn:hover,#socketchatbox-sticker-btn:hover{color:gray}#socketchatbox-sticker-picker{position:absolute;box-shadow:0 0 7px #555;border-radius:5px;z-index:999999;bottom:35px;overflow-x:hidden;overflow-y:overlay;height:350px;width:390px;padding:10px;padding-left:0;padding-right:0;max-height:calc(100% - 65px);max-width:100%;background:#eff1f5;right:0}#socketchatbox-sticker-picker img{width:80px;margin:3px;cursor:pointer;border-radius:5px}#socketchatbox-sticker-picker img:hover{background:#e4e4e4}.emoji-picker{position:absolute;z-index:999;font-family:Montserrat;border:1px solid #ccc;width:100%;overflow-y:scroll;overflow-x:hidden;padding:1rem;box-sizing:border-box;border-radius:.5rem;background:#fff;box-shadow:1px 1px 8px #c7dbe6}.emoji-picker__search{display:flex}.emoji-picker__search>input{flex:1;border-radius:10rem;border:1px solid #ccc;padding:.5rem 1rem;outline:none}.emoji-picker h5{margin-bottom:10px;color:#b1b1b1;text-transform:uppercase;font-size:.8rem;cursor:default}.emoji-picker .emojis{display:flex;flex-wrap:wrap;justify-content:space-between}.emoji-picker .emojis:after{content:"";flex:auto}.emoji-picker .emojis span{border-radius:5px;padding:3px;font-size:25px;line-height:25px}.emoji-picker .emojis span:hover{background:#ececec;cursor:pointer}</style></head>
+    <body>
+        <div id="chatbox-main-vue"><div id="socketchatbox-all" class="socketchatbox-page" style="margin-left: 0px; display: none;"><!----> <div id="socketchatbox-top" class=""><span id="topbar-options"><span><span title="留言板" data-toggle="tooltip" data-placement="bottom" id="socketchatbox-comments" class="top-option"><svg aria-hidden="true" data-prefix="fas" data-icon="comment-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="fa fa-comment-alt svg-inline--fa fa-comment-alt fa-w-16"><path fill="currentColor" d="M448 0H64C28.7 0 0 28.7 0 64v288c0 35.3 28.7 64 64 64h96v84c0 9.8 11.2 15.5 19.1 9.7L304 416h144c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64z" class=""></path></svg> <span class="total-num" style="display: none;">0</span></span> <span title="在线聊天" data-toggle="tooltip" data-placement="bottom" id="socketchatbox-live" class="top-option"><svg aria-hidden="true" data-prefix="fas" data-icon="comments" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="fa fa-comments svg-inline--fa fa-comments fa-w-18 selected"><path fill="currentColor" d="M416 192c0-88.4-93.1-160-208-160S0 103.6 0 192c0 34.3 14.1 65.9 38 92-13.4 30.2-35.5 54.2-35.8 54.5-2.2 2.3-2.8 5.7-1.5 8.7S4.8 352 8 352c36.6 0 66.9-12.3 88.7-25 32.2 15.7 70.3 25 111.3 25 114.9 0 208-71.6 208-160zm122 220c23.9-26 38-57.7 38-92 0-66.9-53.5-124.2-129.3-148.1.9 6.6 1.3 13.3 1.3 20.1 0 105.9-107.7 192-240 192-10.8 0-21.3-.8-31.7-1.9C207.8 439.6 281.8 480 368 480c41 0 79.1-9.2 111.3-25 21.8 12.7 52.1 25 88.7 25 3.2 0 6.1-1.9 7.3-4.8 1.3-2.9.7-6.3-1.5-8.7-.3-.3-22.4-24.2-35.8-54.5z" class=""></path></svg> <span class="unread-notification-dot" style="display: none;"></span></span> <span title="私信" data-toggle="tooltip" data-placement="bottom" id="socketchatbox-inbox" class="top-option"><svg aria-hidden="true" data-prefix="fas" data-icon="inbox" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="fa fa-inbox svg-inline--fa fa-inbox fa-w-18"><path fill="currentColor" d="M567.938 243.908L462.25 85.374A48.003 48.003 0 0 0 422.311 64H153.689a48 48 0 0 0-39.938 21.374L8.062 243.908A47.994 47.994 0 0 0 0 270.533V400c0 26.51 21.49 48 48 48h480c26.51 0 48-21.49 48-48V270.533a47.994 47.994 0 0 0-8.062-26.625zM162.252 128h251.497l85.333 128H376l-32 64H232l-32-64H76.918l85.334-128z" class=""></path></svg> <span class="unread-notification-dot" style="display: none;"></span></span> <span title="个人资料" data-toggle="tooltip" data-placement="bottom" id="socketchatbox-profile" class="top-option" style="display: none;"><svg aria-hidden="true" data-prefix="fas" data-icon="user-circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="fa fa-user svg-inline--fa fa-user-circle fa-w-16"><path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z" class=""></path></svg></span></span> <span class="right-options"><span title="最小化" class="top-option" style="display: none;"><svg aria-hidden="true" data-prefix="fas" data-icon="window-minimize" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-toggle="tooltip" data-placement="bottom" id="minimize-chatbox" class="fa fa-window-minimize svg-inline--fa fa-window-minimize fa-w-16"><path fill="currentColor" d="M464 352H48c-26.5 0-48 21.5-48 48v32c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48v-32c0-26.5-21.5-48-48-48z" class=""></path></svg></span> <span title="关闭" class="top-option"><svg aria-hidden="true" data-prefix="fas" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" data-toggle="tooltip" data-placement="bottom" id="socketchatbox-closeChatbox" class="fa fa-close svg-inline--fa fa-times fa-w-11"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" class=""></path></svg></span></span></span></div> <div id="socketchatbox-body" style="height: 350px; width: 280px; display: none;"><div class="socketchatbox-body" style="display: none;"><div class="socketchatbox-page-title"><svg aria-hidden="true" data-prefix="fas" data-icon="sync-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" title="Refresh comments" data-toggle="tooltip" data-placement="bottom" id="socketchatbox-refresh-comments" class="svg-inline--fa fa-sync-alt fa-w-16 fa fa-refresh"><path fill="currentColor" d="M370.72 133.28C339.458 104.008 298.888 87.962 255.848 88c-77.458.068-144.328 53.178-162.791 126.85-1.344 5.363-6.122 9.15-11.651 9.15H24.103c-7.498 0-13.194-6.807-11.807-14.176C33.933 94.924 134.813 8 256 8c66.448 0 126.791 26.136 171.315 68.685L463.03 40.97C478.149 25.851 504 36.559 504 57.941V192c0 13.255-10.745 24-24 24H345.941c-21.382 0-32.09-25.851-16.971-40.971l41.75-41.749zM32 296h134.059c21.382 0 32.09 25.851 16.971 40.971l-41.75 41.75c31.262 29.273 71.835 45.319 114.876 45.28 77.418-.07 144.315-53.144 162.787-126.849 1.344-5.363 6.122-9.15 11.651-9.15h57.304c7.498 0 13.194 6.807 11.807 14.176C478.067 417.076 377.187 504 256 504c-66.448 0-126.791-26.136-171.315-68.685L48.97 471.03C33.851 486.149 8 475.441 8 454.059V320c0-13.255 10.745-24 24-24z" class=""></path></svg> <span>0 条留言</span></div> <div class="socketchatbox-commentsArea"><div class="no-comment-yet">快来抢占沙发！</div> </div> <button class="socketchatbox-bottom-btn-wrapper" style="display: none;"><svg aria-hidden="true" data-prefix="fas" data-icon="pen" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-toggle="tooltip" data-placement="bottom" class="fa fa-pen svg-inline--fa fa-pen fa-w-16"><path fill="currentColor" d="M290.74 93.24l128.02 128.02-277.99 277.99-114.14 12.6C11.35 513.54-1.56 500.62.14 485.34l12.7-114.22 277.9-277.88zm207.2-19.06l-60.11-60.11c-18.75-18.75-49.16-18.75-67.91 0l-56.55 56.55 128.02 128.02 56.55-56.55c18.75-18.76 18.75-49.16 0-67.91z" class=""></path></svg><span>留言！</span></button></div> <div class="socketchatbox-body"><div id="socketchatbox-chatroom-title" class="socketchatbox-page-title"><span title="邀请" class="invitations"><svg aria-hidden="true" data-prefix="fas" data-icon="bullhorn" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-toggle="tooltip" data-placement="bottom" class="fa fa-bullhorn svg-inline--fa fa-bullhorn fa-w-18"><path fill="currentColor" d="M576 224c0-20.896-13.36-38.666-32-45.258V64c0-35.346-28.654-64-64-64-64.985 56-142.031 128-272 128H48c-26.51 0-48 21.49-48 48v96c0 26.51 21.49 48 48 48h43.263c-18.742 64.65 2.479 116.379 18.814 167.44 1.702 5.32 5.203 9.893 9.922 12.88 20.78 13.155 68.355 15.657 93.773 5.151 16.046-6.633 19.96-27.423 7.522-39.537-18.508-18.026-30.136-36.91-19.795-60.858a12.278 12.278 0 0 0-1.045-11.673c-16.309-24.679-3.581-62.107 28.517-72.752C346.403 327.887 418.591 395.081 480 448c35.346 0 64-28.654 64-64V269.258c18.64-6.592 32-24.362 32-45.258zm-96 139.855c-54.609-44.979-125.033-92.94-224-104.982v-69.747c98.967-12.042 169.391-60.002 224-104.982v279.711z" class=""></path></svg></span> <span title="断开连接" class="badge connected" data-toggle="tooltip" data-placement="bottom" id="socketchatbox-live-status">在线
+            <svg aria-hidden="true" data-prefix="fas" data-icon="power-off" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-toggle="tooltip" data-placement="bottom" class="fa fa-power-off svg-inline--fa fa-power-off fa-w-16"><path fill="currentColor" d="M400 54.1c63 45 104 118.6 104 201.9 0 136.8-110.8 247.7-247.5 248C120 504.3 8.2 393 8 256.4 7.9 173.1 48.9 99.3 111.8 54.2c11.7-8.3 28-4.8 35 7.7L162.6 90c5.9 10.5 3.1 23.8-6.6 31-41.5 30.8-68 79.6-68 134.9-.1 92.3 74.5 168.1 168 168.1 91.6 0 168.6-74.2 168-169.1-.3-51.8-24.7-101.8-68.1-134-9.7-7.2-12.4-20.5-6.5-30.9l15.8-28.1c7-12.4 23.2-16.1 34.8-7.8zM296 264V24c0-13.3-10.7-24-24-24h-32c-13.3 0-24 10.7-24 24v240c0 13.3 10.7 24 24 24h32c13.3 0 24-10.7 24-24z" class=""></path></svg></span> <span title="选择同页面或者同站点聊天" class="site-page-chat-toggle"><span class="toggle-switch left-switch">网页</span> <span class="toggle-switch right-switch selected">网站</span></span> <span title="在当前页面的用户" class="online-users-btn"><svg aria-hidden="true" data-prefix="fas" data-icon="users" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-toggle="tooltip" data-placement="bottom" class="fa fa-users svg-inline--fa fa-users fa-w-20"><path fill="currentColor" d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z" class=""></path></svg><span> 11</span></span></div> <!----> <!----> <div class="socketchatbox-chatArea"><div class="socketchatbox-messages"><!---->  </div></div> <div class="chat-typing" style="display: none;"></div> <div class="redirection-confirmation" style="display: none;"><p>发现同网页用户, 0秒后进入同网页聊天。。。</p> <p><span class="stubborn-btn ok">好，立刻切换</span> <span class="stubborn-btn">不，请留在当前聊天室</span></p></div> <div class="input-bar-mask" style="display: none;">连线！</div></div> <div class="socketchatbox-inbox socketchatbox-body" style="display: none;"><div class="socketchatbox-page-title"><svg aria-hidden="true" data-prefix="fas" data-icon="sync-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" title="Refresh" data-toggle="tooltip" data-placement="bottom" id="socketchatbox-refresh-inbox" class="svg-inline--fa fa-sync-alt fa-w-16 fa fa-refresh"><path fill="currentColor" d="M370.72 133.28C339.458 104.008 298.888 87.962 255.848 88c-77.458.068-144.328 53.178-162.791 126.85-1.344 5.363-6.122 9.15-11.651 9.15H24.103c-7.498 0-13.194-6.807-11.807-14.176C33.933 94.924 134.813 8 256 8c66.448 0 126.791 26.136 171.315 68.685L463.03 40.97C478.149 25.851 504 36.559 504 57.941V192c0 13.255-10.745 24-24 24H345.941c-21.382 0-32.09-25.851-16.971-40.971l41.75-41.749zM32 296h134.059c21.382 0 32.09 25.851 16.971 40.971l-41.75 41.75c31.262 29.273 71.835 45.319 114.876 45.28 77.418-.07 144.315-53.144 162.787-126.849 1.344-5.363 6.122-9.15 11.651-9.15h57.304c7.498 0 13.194 6.807 11.807 14.176C478.067 417.076 377.187 504 256 504c-66.448 0-126.791-26.136-171.315-68.685L48.97 471.03C33.851 486.149 8 475.441 8 454.059V320c0-13.255 10.745-24 24-24z" class=""></path></svg> <span>和 <span class="username">小助手</span> 的对话</span></div> <div class="socketchatbox-inbox-wrapper"><span id="socketchatbox-toggle-friend-list" class="fa fa-chevron-left"></span> <div class="socketchatbox-friend-list"><center class="friendnameWrapper selected"><span class="message-unread" style="display: none;"></span><img src="./chat-bot-id.jpg"><div class="name-text">小助手</div></center></div> <div class="socketchatbox-friend-messages"><!----> <div class="socketchatbox-message socketchatbox-inbox-message"><div class="socketchatbox-log">七月 8日 2018, 3:36 下午</div></div><div class="socketchatbox-message socketchatbox-inbox-message"><div><div class="socketchatbox-messageBody image-or-video"><img src="chrome-extension://bldcellajihanglphncgjmceklbibjkk/chatbox-only/stickers/happy_bun/1.gif" class="chatbox-image"></div> <!----></div></div><div class="socketchatbox-message socketchatbox-inbox-message"><div class="socketchatbox-log">七月 23日 2018, 4:07 凌晨</div></div><div class="socketchatbox-message socketchatbox-inbox-message"><div><!----> <div class="socketchatbox-messageBody">欢迎使用这款插件! 请访问官方论坛给我们留言提建议！</div></div></div></div></div> <div class="input-bar-mask" style="display: none;">访问官方论坛</div></div> <div class="socketchatbox-body" style="display: none;"><div class="socketchatbox-page-title"><span>登录</span> <!----></div> <div class="socketchatbox-profileArea"><!----> <center class="show-change-password-form">没有账号？去注册</center> <br> <div><div class="login-forms-wrapper"><span>账号</span> <input maxlength="15" type="number"> <br> <span>密码</span> <input maxlength="50" type="password"></div></div> <!----></div> <!----> <button class="socketchatbox-bottom-btn-wrapper"><span>提交!</span></button></div> <div class="socketchatbox-body" style="display: none;"><div class="socketchatbox-page-title"><!----> <span>个人资料</span> <!----></div> <div class="socketchatbox-profileArea"><div><center><div class="img-upload-file-wrapper"><img src="chrome-extension://bldcellajihanglphncgjmceklbibjkk/chatbox-only/profile-empty.png" onerror="this.onerror=null;this.src=&#39;profile-empty.png&#39;;"> <div class="upload-profile-image-btn-wrapper"><button class="upload-profile-image-btn">上传头像</button> <input accept="image/*" type="file"></div></div> <input placeholder="用户名" maxlength="10" type="text" class="username"> <div class="user-metadata"><div><span>ID: 12885</span> <span>积分: </span></div> <div class="follower-stats"><span>关注了: <span class="count">0</span></span> <span>关注者: <span class="count">0</span></span></div></div> <textarea placeholder="自我介绍。。。" class="socketchatbox-aboutme"></textarea></center> <center class="show-change-password-form">修改密码</center> <!----></div></div> <button class="socketchatbox-bottom-btn-wrapper half" disabled="disabled"><span>更新</span></button> <button class="socketchatbox-bottom-btn-wrapper half right-half red"><span>登出</span></button></div> <div class="socketchatbox-body" style="display: none;"><div class="socketchatbox-page-title"><span class="leave-others-profile"><svg aria-hidden="true" data-prefix="fas" data-icon="long-arrow-alt-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-long-arrow-alt-left fa-w-14"><path fill="currentColor" d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z" class=""></path></svg></span><span>Profile</span></div> <div class="socketchatbox-profileArea"><center><img src="chrome-extension://bldcellajihanglphncgjmceklbibjkk/chatbox-only/profile-empty.png"> <div class="username">No name</div> <div class="user-metadata"><span>ID: </span><span class="follow">关注者: </span></div> <div class="socketchatbox-aboutme"></div> <br><br> <div class="block-user">屏蔽</div> <br><br><br></center></div> <button class="socketchatbox-bottom-btn-wrapper half"><span>关注</span></button> <button class="socketchatbox-bottom-btn-wrapper half right-half"><span>发私信</span></button></div> <div class="socketchatbox-body" style="display: none;"><div class="socketchatbox-page-title"><span class="leave-others-profile"><svg aria-hidden="true" data-prefix="fas" data-icon="long-arrow-alt-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-long-arrow-alt-left fa-w-14"><path fill="currentColor" d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z" class=""></path></svg></span> <span title="选择同页面或者同站点聊天" class="site-page-chat-toggle blue"><span class="toggle-switch left-switch selected">关注了</span> <span class="toggle-switch right-switch">关注者</span></span></div> <center class="socketchatbox-followersArea"> </center> <div class="follower-footer"></div></div> <div class="notifications" style="width: 300px; bottom: 0px;"><span><div data-id="0" class="notification-wrapper vn-fade-leave vn-fade-leave-active" style="transition: all 300ms ease 0s;"><div class="notification vue-notification warn"><div class="notification-title">连线中。。。</div> <div class="notification-content"></div></div></div><div data-id="1" class="notification-wrapper vn-fade-leave vn-fade-leave-active" style="transition: all 300ms ease 0s;"><div class="notification vue-notification"><div class="notification-title">已连接！</div> <div class="notification-content"></div></div></div><div data-id="2" class="notification-wrapper vn-fade-enter vn-fade-leave vn-fade-leave-active" style="transition: all 300ms ease 0s;"><div class="notification vue-notification warn"><div class="notification-title">已断开连接！</div> <div class="notification-content"></div></div></div><div data-id="3" class="notification-wrapper vn-fade-enter vn-fade-leave vn-fade-leave-active" style="transition: all 300ms ease 0s;"><div class="notification vue-notification warn"><div class="notification-title">连线中。。。</div> <div class="notification-content"></div></div></div><div data-id="4" class="notification-wrapper vn-fade-enter vn-fade-leave vn-fade-leave-active" style="transition: all 300ms ease 0s;"><div class="notification vue-notification"><div class="notification-title">已连接！</div> <div class="notification-content"></div></div></div><div data-id="5" class="notification-wrapper vn-fade-leave vn-fade-leave-active" style="transition: all 300ms ease 0s;"><div class="notification vue-notification warn"><div class="notification-title">已断开连接！</div> <div class="notification-content"></div></div></div><div data-id="6" class="notification-wrapper vn-fade-leave vn-fade-leave-active" style="transition: all 300ms ease 0s;"><div class="notification vue-notification"><div class="notification-title">已连接！</div> <div class="notification-content"></div></div></div></span></div> <div id="chatbox-input" class="socketchatbox-inputMessage-div"><!----> <div style="visibility: visible;"> <!----></div> <input autofocus="" placeholder="输入。。。" class="socketchatbox-inputMessage"> <label data-toggle="tooltip" title="Send image or file" data-placement="left" id="socketchatbox-sendFileBtn" for="socketchatbox-sendMedia"><svg aria-hidden="true" data-prefix="fas" data-icon="paperclip" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-paperclip fa-w-14" style="width: 100%; height: 100%;"><path fill="currentColor" d="M43.246 466.142c-58.43-60.289-57.341-157.511 1.386-217.581L254.392 34c44.316-45.332 116.351-45.336 160.671 0 43.89 44.894 43.943 117.329 0 162.276L232.214 383.128c-29.855 30.537-78.633 30.111-107.982-.998-28.275-29.97-27.368-77.473 1.452-106.953l143.743-146.835c6.182-6.314 16.312-6.422 22.626-.241l22.861 22.379c6.315 6.182 6.422 16.312.241 22.626L171.427 319.927c-4.932 5.045-5.236 13.428-.648 18.292 4.372 4.634 11.245 4.711 15.688.165l182.849-186.851c19.613-20.062 19.613-52.725-.011-72.798-19.189-19.627-49.957-19.637-69.154 0L90.39 293.295c-34.763 35.56-35.299 93.12-1.191 128.313 34.01 35.093 88.985 35.137 123.058.286l172.06-175.999c6.177-6.319 16.307-6.433 22.626-.256l22.877 22.364c6.319 6.177 6.434 16.307.256 22.626l-172.06 175.998c-59.576 60.938-155.943 60.216-214.77-.485z" class=""></path></svg> <input id="socketchatbox-sendMedia" type="file" style="display: none;"></label> <svg aria-hidden="true" data-prefix="fas" data-icon="smile" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" data-toggle="tooltip" title="Send emoji" id="socketchatbox-emoji-btn" class="svg-inline--fa fa-smile fa-w-16"><path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm80 168c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm-160 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm194.8 170.2C334.3 380.4 292.5 400 248 400s-86.3-19.6-114.8-53.8c-13.6-16.3 11-36.7 24.6-20.5 22.4 26.9 55.2 42.2 90.2 42.2s67.8-15.4 90.2-42.2c13.4-16.2 38.1 4.2 24.6 20.5z" class=""></path></svg> <svg aria-hidden="true" data-prefix="fas" data-icon="laugh-wink" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" data-toggle="tooltip" title="Send stickers" id="socketchatbox-sticker-btn" class="svg-inline--fa fa-laugh-wink fa-w-16"><path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm20.1 198.1c4-25.2 34.2-42.1 59.9-42.1s55.9 16.9 59.9 42.1c1.7 11.1-11.4 18.3-19.8 10.8l-9.5-8.5c-14.8-13.2-46.2-13.2-61 0L288 217c-8.4 7.4-21.6.3-19.9-10.9zM168 160c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm230.9 146C390 377 329.4 432 256 432h-16c-73.4 0-134-55-142.9-126-1.2-9.5 6.3-18 15.9-18h270c9.6 0 17.1 8.4 15.9 18z" class=""></path></svg></div></div></div></div>
+        <!---->
+        <!---->
+    
+    <script src="chrome-extension://bldcellajihanglphncgjmceklbibjkk/chatbox-only/build.js"></script>
+
+</body></html>

