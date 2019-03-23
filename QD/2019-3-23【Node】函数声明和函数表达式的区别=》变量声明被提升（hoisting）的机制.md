@@ -4,3 +4,9 @@ tags: js,node
 grammar_cjkRuby: true
 ---
 
+function(){}与var fun=function(){}的区别
+
+![enter description here](https://www.github.com/Merlynr/Markdown/raw/noteImg/小书匠/1553337634581.png)
+
+![enter description here](https://www.github.com/Merlynr/Markdown/raw/noteImg/小书匠/1553337644511.png)
+
