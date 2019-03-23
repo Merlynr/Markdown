@@ -19,3 +19,14 @@ function(){}与var fun=function(){}的区别
 ![enter description here](https://www.github.com/Merlynr/Markdown/raw/noteImg/小书匠/1553341605258.png)
 
 ![enter description here](https://www.github.com/Merlynr/Markdown/raw/noteImg/小书匠/1553341616153.png)
+
+
+所有全局变量都是window或Global的属性
+
+函数声明会被提到范围作用域的顶端
+
+变量声明会被提到范围作用域的顶端
+
+变量声明比函数声明优先级高，变量声明优于函数声明，如果两者同时存在，后被提升的函数声明会覆盖被提升的变量声明
+
+变量赋值不会被提升，到执行行代码才开始赋值
