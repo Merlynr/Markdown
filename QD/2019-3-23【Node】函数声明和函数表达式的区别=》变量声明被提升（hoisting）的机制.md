@@ -31,4 +31,13 @@ function(){}与var fun=function(){}的区别
 
 变量赋值不会被提升，到执行行代码才开始赋值
 
+坑: 简写: module.exports.fun=function(){…}
+
+       可简写为: exports.fun=function(){…}
+   exports其实是module.exports的别名
+   var exports=module.exports;
+问题: 给exports赋值，无法赋值给module.exports
+   因为exports只是一个变量，临时保存module.exports的地址值。再次给exports赋任何新值，都导致exports与module.exports分道扬镳！
+避免: 不要用简写exports
+
 
