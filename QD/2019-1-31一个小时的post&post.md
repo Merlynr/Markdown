@@ -2,6 +2,7 @@
 title: 2019-1-31不满意的半个小时post&post
 tags: js
 grammar_cjkRuby: true
+copyright: true
 ---
 ### 题记
 <font color="#f1403c">今日，无所事事，所以想起了一个感觉自己懂的概念，但是又不是能够给别人讲懂的。【别人 都不懂，那就是你不行】
